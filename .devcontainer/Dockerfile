@@ -41,3 +41,8 @@ USER ${VSCODE_USER}
 WORKDIR /workspaces/llmaven-rse-sandbox
 
 RUN echo 'eval "$(pixi completion -s bash)"' >> ${VSCODE_HOME}/.bashrc
+
+# Pre-install GitHub Copilot CLI and the rse-plugins marketplace plugins
+# during the image build so the devcontainer is ready on attach.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/install-plugins.sh /tmp/install-plugins.sh
+RUN bash /tmp/install-plugins.sh && rm -f /tmp/install-plugins.sh
