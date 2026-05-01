@@ -35,7 +35,8 @@ RUN set -eu \
 
 ENV VSCODE_HOME=/home/vscode \
     VSCODE_USER=vscode \
-    SHELL=/bin/bash
+    SHELL=/bin/bash \
+    PATH=/home/vscode/.local/bin:${PATH}
 
 USER ${VSCODE_USER}
 WORKDIR /workspaces/llmaven-rse-sandbox
