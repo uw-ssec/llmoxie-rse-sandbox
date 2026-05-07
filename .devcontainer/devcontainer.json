@@ -1,6 +1,6 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:cdcf6511aeabbe19aee0dd4aa1ffebc1c09cc95354d3191d260dda8691a70b35",
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:94d4c94a646e9b9d23d80a7539a28977b4a213e49d80491db5bdb00927f219c2",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -14,10 +14,22 @@
         "oaicopilot.baseUrl": "https://uw-ssec-llmaven.hf.space",
         "oaicopilot.models": [
           {
+              "id": "gpt-5.4-mini",
+              "displayName": "GPT 5.4 Mini (UW SSEC)",
+              "owned_by": "uw-ssec",
+              "temperature": 1,
+              "isUserSelectable": true,
+              "isDefault": true,
+              "extra": {
+                  "allowed_openai_params": ["top_p"]
+              }
+          },
+          {
               "id": "gpt-5.4-pro",
               "displayName": "GPT 5.4 Pro (UW SSEC)",
               "owned_by": "uw-ssec",
               "temperature": 1,
+              "isUserSelectable": true,
               "extra": {
                   "allowed_openai_params": ["top_p"]
               }
@@ -27,6 +39,7 @@
               "displayName": "GPT 5.3 Codex (UW SSEC)",
               "owned_by": "uw-ssec",
               "temperature": 1,
+              "isUserSelectable": true,
               "extra": {
                   "allowed_openai_params": ["top_p"]
               }
@@ -34,28 +47,8 @@
           {
               "id": "gpt-oss-120b",
               "displayName": "GPT OSS 120B (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "Mistral-Large-3",
-              "displayName": "Mistral Large 3 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-opus-4-6",
-              "displayName": "Claude Opus 4.6 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-sonnet-4-6",
-              "displayName": "Claude Sonnet 4.6 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-haiku-4-5-20251001",
-              "displayName": "Claude Haiku 4.5 (UW SSEC)",
-              "owned_by": "uw-ssec"
-
+              "owned_by": "uw-ssec",
+              "isUserSelectable": true
           }
       ],
         "workbench.startupEditor": "readme",
