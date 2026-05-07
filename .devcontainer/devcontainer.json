@@ -1,6 +1,6 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer:latest",
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:cdcf6511aeabbe19aee0dd4aa1ffebc1c09cc95354d3191d260dda8691a70b35",
   "customizations": {
     "vscode": {
       "extensions": [
