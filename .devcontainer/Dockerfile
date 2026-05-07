@@ -1,6 +1,6 @@
 # Base image intentionally uses "base" (not python) because
 # environment + dependencies are managed via pixi, not system Python.
-FROM mcr.microsoft.com/devcontainers/base:jammy
+FROM mcr.microsoft.com/devcontainers/base:dev-ubuntu26.04
 
 # Use bash for RUN so pipefail is supported.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
