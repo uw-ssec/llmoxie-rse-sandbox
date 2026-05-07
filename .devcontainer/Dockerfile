@@ -47,3 +47,20 @@ RUN echo 'eval "$(pixi completion -s bash)"' >> ${VSCODE_HOME}/.bashrc
 # during the image build so the devcontainer is ready on attach.
 COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/install-plugins.sh /tmp/install-plugins.sh
 RUN bash /tmp/install-plugins.sh && rm -f /tmp/install-plugins.sh
+
+# Pre-populate the pixi package cache so that onCreateCommand's `pixi install`
+# resolves packages from disk instead of downloading from conda-forge.
+# The .pixi env directory is removed afterwards because it will be created
+# inside the Docker volume mount at container-create time.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} pixi.toml pixi.lock /tmp/pixi-warmup/
+RUN cd /tmp/pixi-warmup \
+    && pixi install --locked \
+    && rm -rf /tmp/pixi-warmup/.pixi \
+    && rm -rf /tmp/pixi-warmup
+
+# Pre-download and verify the OAI-compatible Copilot VSIX so that
+# postCreateCommand can skip the network fetch on first container create.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/oai-compatible-copilot-vsix.env /tmp/oai-compatible-copilot-vsix.env
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/post-create.sh /tmp/post-create.sh
+RUN bash /tmp/post-create.sh \
+    && rm -f /tmp/post-create.sh /tmp/oai-compatible-copilot-vsix.env
