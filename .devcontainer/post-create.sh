@@ -172,6 +172,16 @@ main_download() {
   mkdir -p "${VSIX_DIR}"
   verify_vsix_path || return 1
 
+  # Skip download if the image already pre-cached the verified VSIX.
+  if [ -f "${VSIX_PATH}" ]; then
+    log "VSIX already present, verifying cached copy..."
+    if verify_sha256; then
+      log "Cache hit: ${VSIX_PATH}"
+      return 0
+    fi
+    log "Cached VSIX failed SHA256 check — re-downloading..."
+  fi
+
   log "Release tag: ${VSIX_RELEASE_TAG}"
   if [ -n "${VSIX_SOURCE_COMMIT:-}" ]; then
     log "Source commit metadata: ${VSIX_SOURCE_COMMIT}"

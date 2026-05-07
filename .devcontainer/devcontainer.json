@@ -1,9 +1,6 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer:latest",
   "customizations": {
     "vscode": {
       "extensions": [
