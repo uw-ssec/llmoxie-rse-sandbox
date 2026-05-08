@@ -140,31 +140,42 @@ verify_sha256() {
 
 find_code() {
   # The /usr/local/bin/code shim that ships with mcr.microsoft.com/devcontainers/base
-  # only works when ~/.vscode-server/bin/*/bin/remote-cli is also in PATH AFTER the
-  # shim, which is not guaranteed for non-interactive postAttachCommand shells.
-  # Resolve the VS Code Server remote-cli `code` directly to avoid that fragility.
-  local candidate
-  for candidate in "${HOME}"/.vscode-server/bin/*/bin/remote-cli/code; do
-    if [ -x "${candidate}" ]; then
-      printf '%s\n' "${candidate}"
-      return 0
-    fi
+  # only works when the VS Code Server remote-cli is also in PATH AFTER the shim,
+  # which is not guaranteed for non-interactive postAttachCommand shells. Resolve
+  # the remote-cli `code` directly to avoid that fragility. Search the known
+  # install roots (devcontainers, GitHub Codespaces, insiders).
+  local pattern
+  for pattern in \
+    "${HOME}"/.vscode-server/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-server-insiders/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-remote/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/linux-*/*/bin/remote-cli/code; do
+    # Iterate over the glob expansion (or literal pattern if no match).
+    for candidate in ${pattern}; do
+      if [ -x "${candidate}" ]; then
+        printf '%s\n' "${candidate}"
+        return 0
+      fi
+    done
   done
 
-  # Fall back to whatever `code` is on PATH (the shim or a real install).
-  if command -v code >/dev/null 2>&1; then
-    command -v code
-    return 0
-  fi
-
   return 1
+}
+
+log_code_search_diagnostics() {
+  error "VS Code remote-cli not found. Searched under:"
+  error "  ${HOME}/.vscode-server/, ${HOME}/.vscode-server-insiders/, ${HOME}/.vscode-remote/, /vscode/vscode-server/"
+  error "Listing ~/.vscode* and /vscode for diagnostics:"
+  ls -la "${HOME}" 2>&1 | grep -E '\.vscode' >&2 || true
+  ls -la /vscode 2>&1 >&2 || true
 }
 
 main_install() {
   log "Checking OAI-compatible Copilot extension..."
 
   if ! CODE_BIN="$(find_code)"; then
-    error "VS Code CLI not found. Looked in ~/.vscode-server/bin/*/bin/remote-cli/code and PATH."
+    log_code_search_diagnostics
     return 1
   fi
   log "Using VS Code CLI: ${CODE_BIN}"
