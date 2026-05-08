@@ -12,6 +12,8 @@
       "settings": {
         "chat.plugins.enabled": true,
         "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.pixi/envs/default/bin/python",
+        "python-envs.workspaceSearchPaths": [".pixi/envs/*"],
+        "python-envs.alwaysUseUv": false,
         "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
         "oaicopilot.models": [
           {
