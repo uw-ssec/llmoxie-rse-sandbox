@@ -138,10 +138,48 @@ verify_sha256() {
   fi
 }
 
+find_code() {
+  # The /usr/local/bin/code shim that ships with mcr.microsoft.com/devcontainers/base
+  # only works when the VS Code Server remote-cli is also in PATH AFTER the shim,
+  # which is not guaranteed for non-interactive postAttachCommand shells. Resolve
+  # the remote-cli `code` directly to avoid that fragility. Search the known
+  # install roots (devcontainers, GitHub Codespaces, insiders).
+  local pattern
+  for pattern in \
+    "${HOME}"/.vscode-server/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-server-insiders/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-remote/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/linux-*/*/bin/remote-cli/code; do
+    # Iterate over the glob expansion (or literal pattern if no match).
+    for candidate in ${pattern}; do
+      if [ -x "${candidate}" ]; then
+        printf '%s\n' "${candidate}"
+        return 0
+      fi
+    done
+  done
+
+  return 1
+}
+
+log_code_search_diagnostics() {
+  error "VS Code remote-cli not found. Searched under:"
+  error "  ${HOME}/.vscode-server/, ${HOME}/.vscode-server-insiders/, ${HOME}/.vscode-remote/, /vscode/vscode-server/"
+  error "Listing ~/.vscode* and /vscode for diagnostics:"
+  ls -la "${HOME}" 2>&1 | grep -E '\.vscode' >&2 || true
+  ls -la /vscode 2>&1 >&2 || true
+}
+
 main_install() {
   log "Checking OAI-compatible Copilot extension..."
 
-  require_cmd code || return 1
+  if ! CODE_BIN="$(find_code)"; then
+    log_code_search_diagnostics
+    return 1
+  fi
+  log "Using VS Code CLI: ${CODE_BIN}"
+
   require_cmd grep || return 1
   require_cmd realpath || return 1
   require_cmd sha256sum || return 1
@@ -162,15 +200,15 @@ main_install() {
   log "Verifying VSIX SHA256 before install..."
   verify_sha256 || return 1
 
-  if code --list-extensions | grep -qx "${EXTENSION_ID}"; then
+  if "${CODE_BIN}" --list-extensions | grep -qx "${EXTENSION_ID}"; then
     log "Extension already installed: ${EXTENSION_ID}"
     return 0
   fi
 
   log "Installing extension from verified VSIX: ${VSIX_PATH}"
-  code --install-extension "${VSIX_PATH}"
+  "${CODE_BIN}" --install-extension "${VSIX_PATH}"
 
-  if ! code --list-extensions | grep -qx "${EXTENSION_ID}"; then
+  if ! "${CODE_BIN}" --list-extensions | grep -qx "${EXTENSION_ID}"; then
     error "extension was not installed: ${EXTENSION_ID}"
     return 1
   fi

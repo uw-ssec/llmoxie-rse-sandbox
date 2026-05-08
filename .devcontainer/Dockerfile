@@ -1,6 +1,6 @@
 # Base image intentionally uses "base" (not python) because
 # environment + dependencies are managed via pixi, not system Python.
-FROM mcr.microsoft.com/devcontainers/base:jammy
+FROM mcr.microsoft.com/devcontainers/base:dev-ubuntu26.04
 
 # Use bash for RUN so pipefail is supported.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -9,13 +9,8 @@ ARG PIXI_VERSION=v0.63.2
 ARG PIXI_SHA256_X86_64=b2a9e26bb6c80fe00618a02e7198dec222e1fbcec61e04c11b6e6538089ab100
 ARG PIXI_SHA256_AARCH64=dbde6dbc2806602171e17305ce005e1aed519f2f2461a7cafd0093e92b7e7681
 
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    curl \
-    git \
-    jq \
-    tar \
-    && rm -rf /var/lib/apt/lists/*
+# curl, git, jq, tar, and ca-certificates are provided by the
+# mcr.microsoft.com/devcontainers/base image, so no apt install step is needed.
 
 # Install pixi by verifying against reviewed, pinned SHA256 values in this Dockerfile.
 RUN set -eu \

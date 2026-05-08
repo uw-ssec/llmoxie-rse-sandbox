@@ -1,23 +1,39 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer:latest",
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:595c725f99b95b329bfa0f49436798914d90afc17e7779d669fcfa880b4a9f95",
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "ms-python.python",
-        "ms-python.vscode-pylance"
+        "ms-python.vscode-pylance",
+        "renan-r-santos.pixi-code"
       ],
       "settings": {
         "chat.plugins.enabled": true,
-        "oaicopilot.baseUrl": "https://uw-ssec-llmaven.hf.space",
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.pixi/envs/default/bin/python",
+        "python-envs.defaultEnvManager": "renan-r-santos.pixi-code:pixi",
+        "python-envs.defaultPackageManager": "renan-r-santos.pixi-code:pixi",
+        "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
         "oaicopilot.models": [
+          {
+              "id": "gpt-5.4-mini",
+              "displayName": "GPT 5.4 Mini (UW SSEC)",
+              "owned_by": "uw-ssec",
+              "temperature": 1,
+              "isUserSelectable": true,
+              "isDefault": true,
+              "extra": {
+                  "allowed_openai_params": ["top_p"]
+              }
+          },
           {
               "id": "gpt-5.4-pro",
               "displayName": "GPT 5.4 Pro (UW SSEC)",
               "owned_by": "uw-ssec",
               "temperature": 1,
+              "isUserSelectable": true,
               "extra": {
                   "allowed_openai_params": ["top_p"]
               }
@@ -27,6 +43,7 @@
               "displayName": "GPT 5.3 Codex (UW SSEC)",
               "owned_by": "uw-ssec",
               "temperature": 1,
+              "isUserSelectable": true,
               "extra": {
                   "allowed_openai_params": ["top_p"]
               }
@@ -34,28 +51,8 @@
           {
               "id": "gpt-oss-120b",
               "displayName": "GPT OSS 120B (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "Mistral-Large-3",
-              "displayName": "Mistral Large 3 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-opus-4-6",
-              "displayName": "Claude Opus 4.6 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-sonnet-4-6",
-              "displayName": "Claude Sonnet 4.6 (UW SSEC)",
-              "owned_by": "uw-ssec"
-          },
-          {
-              "id": "claude-haiku-4-5-20251001",
-              "displayName": "Claude Haiku 4.5 (UW SSEC)",
-              "owned_by": "uw-ssec"
-
+              "owned_by": "uw-ssec",
+              "isUserSelectable": true
           }
       ],
         "workbench.startupEditor": "readme",
@@ -83,7 +80,15 @@
     // OAI_API_KEY is placed in remoteEnv because the LLMaven Copilot extension runtime reads
     // that OpenAI-compatible environment variable at activation time. Setting it only around
     // lifecycle shell commands would not propagate to the VS Code extension host.
-    "OAI_API_KEY": "${localEnv:LITELLM_API_KEY}"
+    "OAI_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    // Point the GitHub Copilot CLI (BYOK) at the same LLMaven gateway used by the
+    // oaicopilot extension so the CLI exposes the same models. Users can switch
+    // among the available models in-session via the /model slash command
+    // (e.g. /model gpt-5.4-mini, /model gpt-5.4-pro, /model gpt-oss-120b).
+    "COPILOT_PROVIDER_BASE_URL": "${localEnv:LITELLM_BASE_URL}/v1",
+    "COPILOT_PROVIDER_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    "COPILOT_MODEL": "gpt-5.3-codex",
+    "COPILOT_PROVIDER_WIRE_API": "responses"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
