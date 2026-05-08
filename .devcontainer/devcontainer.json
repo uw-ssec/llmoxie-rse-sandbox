@@ -8,13 +8,13 @@
         "GitHub.copilot-chat",
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "jjjermiah.pixi-vscode"
+        "renan-r-santos.pixi-code"
       ],
       "settings": {
         "chat.plugins.enabled": true,
         "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.pixi/envs/default/bin/python",
-        "python-envs.workspaceSearchPaths": [".pixi/envs/*"],
-        "python-envs.alwaysUseUv": false,
+        "python-envs.defaultEnvManager": "renan-r-santos.pixi-code:pixi",
+        "python-envs.defaultPackageManager": "renan-r-santos.pixi-code:pixi",
         "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
         "oaicopilot.models": [
           {
