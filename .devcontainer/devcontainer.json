@@ -88,10 +88,7 @@
     "COPILOT_PROVIDER_BASE_URL": "${localEnv:LITELLM_BASE_URL}/v1",
     "COPILOT_PROVIDER_API_KEY": "${localEnv:LITELLM_API_KEY}",
     "COPILOT_MODEL": "gpt-5.3-codex",
-    "COPILOT_PROVIDER_WIRE_API": "responses",
-    // Put the pixi default env's bin on PATH so tools (including Copilot Chat /
-    // Copilot CLI) discover Python without requiring `pixi shell` activation.
-    "PATH": "${containerWorkspaceFolder}/.pixi/envs/default/bin:${containerEnv:PATH}"
+    "COPILOT_PROVIDER_WIRE_API": "responses"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
