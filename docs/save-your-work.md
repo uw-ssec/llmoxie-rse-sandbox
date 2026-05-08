@@ -1,6 +1,6 @@
 # Save Your Work
 
-This repository is read-only for demo users.
+This demo workspace has restricted write access; fork to preserve work.
 
 If you want to keep your work:
 

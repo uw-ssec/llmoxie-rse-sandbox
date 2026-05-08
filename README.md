@@ -6,7 +6,7 @@ It provides a preconfigured GitHub Codespaces workspace where authorized users c
 
 ## What this repo provides
 
-- A user-facing evaluation environment for RSE AI workflows
+- A user-facing evaluation environment for research software engineering (RSE) AI workflows
 - A GitHub Codespaces sandbox with scientific Python tooling managed by Pixi
 - A pinned LLMaven Copilot Provider extension for routing Copilot-compatible requests through the LLMaven / LiteLLM gateway
 - Workspace recommendations for UW SSEC RSE Agent Plugins
@@ -74,39 +74,7 @@ See the [Copilot model picker screenshot](docs/assets/copilot-model-picker.png).
 
 ![Copilot Chat model picker showing OAI-compatible models](docs/assets/copilot-model-picker.png)
 
-**If no OAI-compatible models appear:**
-
-1. Open the Extensions view and search for `LLMaven Copilot Provider`. Confirm it is installed and enabled.
-2. Check the VS Code Output panel for any activation errors from the provider extension.
-3. If startup logged `Warning: OAI_API_KEY is not set`, the `LITELLM_API_KEY` Codespace secret was missing or not set before the Codespace was created — recreate the Codespace from the authorized onboarding flow.
-4. If the extension is installed but models still do not appear, try reloading the VS Code window (`Ctrl+Shift+P` → **Developer: Reload Window**) and reopening the model picker.
-5. If the issue persists, open a new Codespace from the onboarding flow rather than reconnecting to an existing one.
-
-### Step 4 — Install the recommended RSE Agent Plugins
-
-Open the Extensions view (`Ctrl+Shift+X`) and search:
-
-```text
-@agentPlugins @recommended
-```
-
-You will see the UW SSEC RSE plugins recommended from the `rse-plugins` marketplace. Install the plugins you want to use.
-
-See the [recommended RSE Agent Plugins screenshot](docs/assets/recommended-rse-agent-plugins.png).
-
-![Recommended RSE Agent Plugins in VS Code](docs/assets/recommended-rse-agent-plugins.png)
-
-Recommended plugins include:
-
-- `scientific-domain-applications`
-- `scientific-python-development`
-- `holoviz-visualization`
-- `ai-research-workflows`
-- `project-management`
-- `zarr-data-format`
-- `research-software-design`
-
-### Step 5 — Try an RSE workflow in Copilot Chat
+### Step 4 — Try an RSE workflow in Copilot Chat
 
 With the plugins installed and a model selected, try a workflow prompt in Copilot Chat:
 
@@ -124,7 +92,7 @@ Use the research-software-design plugin to identify user, workflow, and design r
 
 The plugin provides RSE-specific skills, agents, or slash commands that appear inside Copilot Chat.
 
-### Step 6 — Move to the Copilot CLI for scripted workflows
+### Step 5 — Move to the Copilot CLI for scripted workflows
 
 Once the Chat interaction is working, use the Copilot CLI for workflows that benefit from shell integration, file output, or scripted repetition.
 
@@ -152,7 +120,6 @@ Switch models in-session using the `/model` slash command:
 
 ```text
 /model gpt-5.4-mini
-/model gpt-5.4-pro
 /model gpt-oss-120b
 ```
 
