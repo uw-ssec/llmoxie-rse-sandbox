@@ -1,6 +1,6 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:94d4c94a646e9b9d23d80a7539a28977b4a213e49d80491db5bdb00927f219c2",
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:a6eaeb57fa8cbfe79da0a5f39f87fd54353d99f412266670f927d01a30e0b970",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -11,7 +11,7 @@
       ],
       "settings": {
         "chat.plugins.enabled": true,
-        "oaicopilot.baseUrl": "https://uw-ssec-llmaven.hf.space",
+        "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
         "oaicopilot.models": [
           {
               "id": "gpt-5.4-mini",
@@ -76,7 +76,14 @@
     // OAI_API_KEY is placed in remoteEnv because the LLMaven Copilot extension runtime reads
     // that OpenAI-compatible environment variable at activation time. Setting it only around
     // lifecycle shell commands would not propagate to the VS Code extension host.
-    "OAI_API_KEY": "${localEnv:LITELLM_API_KEY}"
+    "OAI_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    // Point the GitHub Copilot CLI (BYOK) at the same LLMaven gateway used by the
+    // oaicopilot extension so the CLI exposes the same models. Users can switch
+    // among the available models in-session via the /model slash command
+    // (e.g. /model gpt-5.4-mini, /model gpt-5.4-pro, /model gpt-oss-120b).
+    "COPILOT_PROVIDER_BASE_URL": "${localEnv:LITELLM_BASE_URL}/v1",
+    "COPILOT_PROVIDER_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    "COPILOT_MODEL": "gpt-5.3-codex"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
