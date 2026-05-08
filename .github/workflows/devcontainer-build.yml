@@ -53,5 +53,3 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # zstd layer compression + OCI media types for faster pulls.
-          outputs: type=image,push=true,compression=zstd,force-compression=true,oci-mediatypes=true
