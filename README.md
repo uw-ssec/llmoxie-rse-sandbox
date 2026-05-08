@@ -123,8 +123,6 @@ Switch models in-session using the `/model` slash command:
 /model gpt-oss-120b
 ```
 
-For the full setup details and troubleshooting, see [docs/getting-started.md](docs/getting-started.md).
-
 ## Saving your work
 
 This repository is intended as a managed sandbox. Demo users should fork this repository if they want to preserve changes outside the provided environment.
