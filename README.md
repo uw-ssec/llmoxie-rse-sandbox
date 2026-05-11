@@ -1,14 +1,16 @@
-# llmaven-rse-sandbox
+# LLMoxie NAIRR Sandbox
 
-This repository contains the sandbox environment for the NAIRR RSE Plugins Demo.
+This repository is a **NAIRR Pilot Sandbox** for exploring AI-assisted Research Software Engineering (RSE) workflows.
 
-It provides a preconfigured GitHub Codespaces workspace where authorized users can evaluate Research Software Engineering (RSE) AI workflows using GitHub Copilot Chat, the LLMaven Copilot Provider extension, and the UW SSEC RSE Agent Plugins.
+NAIRR Pilot Sandbox projects are for any US-based researcher, educator, or student interested in exploring an AI-related example project in a test environment. These Sandboxes are isolated environments for experimentation and development. They allow academics, scientists, and students to try out new features or server configurations, or just play with AI tools without impacting the live system. Think of a sandbox as a playground where you can experiment with different AI tools and ideas without breaking anything that's already working.
+
+This specific sandbox provides a preconfigured GitHub Codespaces workspace for evaluating RSE AI workflows using GitHub Copilot Chat, the LLMoxie Model Provider extension, and the UW SSEC RSE Agent Plugins.
 
 ## What this repo provides
 
 - A user-facing evaluation environment for research software engineering (RSE) AI workflows
 - A GitHub Codespaces sandbox with scientific Python tooling managed by Pixi
-- A pinned LLMaven Copilot Provider extension for routing Copilot-compatible requests through the LLMaven / LiteLLM gateway
+- A pinned LLMoxie Model Provider extension for routing Copilot-compatible requests through the LLMoxie / LiteLLM gateway
 - Copilot CLI marketplace registration for UW SSEC RSE Agent Plugins
 - Guided documentation for first-time demo users
 
@@ -20,8 +22,8 @@ The sandbox uses three layers:
 GitHub Codespaces
   → provides the reproducible development environment
 
-LLMaven Copilot Provider
-  → routes Copilot Chat model requests through the LLMaven / LiteLLM gateway
+LLMoxie Model Provider
+  → routes Copilot Chat model requests through the LLMoxie / LiteLLM gateway
 
 RSE Agent Plugins
   → provide RSE-specific skills, agents, and slash commands via the Copilot CLI marketplace
@@ -40,35 +42,48 @@ Start from the authorized onboarding flow or from the repository page and open a
 During first launch, the devcontainer automatically:
 
 - prepares the Pixi Python environment
-- downloads and verifies the pinned LLMaven Copilot Provider VSIX
-- installs the provider extension and configures it to route through the LLMaven / LiteLLM gateway
-- installs the Copilot CLI, wires it to the LLMaven gateway, and registers the RSE plugin marketplace
+- downloads and verifies the pinned LLMoxie Model Provider VSIX
+- installs the provider extension and configures it to route through the LLMoxie / LiteLLM gateway
+- installs the Copilot CLI, wires it to the LLMoxie gateway, and registers the RSE plugin marketplace
 
 You will see setup output in the terminal during first launch. Wait for it to complete before continuing.
 
-### Step 2 — Start with Copilot Chat (chat-first)
+Once setup completes, the Codespace is ready for use — the README opens in the editor, the Copilot Chat panel is available on the right, and the integrated terminal shows the post-create output.
 
-**Begin in Copilot Chat, not the CLI.** Chat is the fastest way to verify that the full stack is working end-to-end before switching to command-line workflows.
+![GitHub Codespace ready for use after first launch, with README preview, Copilot Chat panel, and terminal visible](docs/assets/codespace-ready.png)
 
-Open the Copilot Chat panel in VS Code (the speech-bubble icon in the Activity Bar, or `Ctrl+Shift+I`).
+### Step 2 — Select a UW SSEC model
 
-Try a simple prompt to confirm the connection is live:
+The UW SSEC models routed through the LLMoxie / LiteLLM gateway are contributed by the installed LLMoxie Model Provider extension. On first Codespace launch, you need to open the Language Models manager once (Step 2b) so the picker surfaces them — after that, the UW SSEC entries persist in the chat model picker for this Codespace.
+
+**2a. Open the chat model picker.** Open the Copilot Chat panel in VS Code (the speech-bubble icon in the Activity Bar, or `Ctrl+Shift+I`), then click the model name shown next to the input box. The compact picker lists the most common Copilot subscription models (Auto, Claude Sonnet 4.6, GPT-5.4) plus an "Other Models" section that holds the rest.
+
+![Default Copilot Chat model picker](docs/assets/llmoxie-model-picker-default.png)
+
+**2b. Open the Language Models manager (required on first Codespace launch).** In the top-right of the picker popover (next to the "Search models" input), click the gear icon. The **Language Models** manager opens in the editor area, showing two sections:
+
+- **Copilot** — the built-in models available based on your GitHub Copilot subscription (Claude Sonnet 4.6, GPT-5.4, Gemini 2.5 Pro, and so on).
+- **LLMoxie Gateway** — the UW SSEC models contributed by the installed LLMoxie Model Provider extension: `GPT 5.4 Mini (UW SSEC)` and `GPT OSS 120B (UW SSEC)`.
+
+The UW SSEC entries are already enabled — no toggling needed. Close the manager when done; the picker will now surface them in Step 2c.
+
+![Language Models manager showing the GitHub Copilot subscription models and the UW SSEC LLMoxie Gateway section](docs/assets/llmoxie-language-models-manager.png)
+
+**2c. Select a UW SSEC model.** From the chat model picker, expand "Other Models". The UW SSEC entries appear in the list — `GPT 5.4 Mini (UW SSEC)` and `GPT OSS 120B (UW SSEC)`. Selecting one routes your Copilot Chat requests through the LLMoxie / LiteLLM gateway.
+
+![Chat model picker listing GPT 5.4 Mini (UW SSEC) and GPT OSS 120B (UW SSEC) under Other Models](docs/assets/llmoxie-model-picker-uw-ssec.png)
+
+### Step 3 — Verify the stack with Copilot Chat
+
+**Verify in Chat before moving to the CLI.** A simple chat prompt is the fastest way to confirm the full stack — LLMoxie Model Provider, gateway, and selected UW SSEC model — is working end-to-end.
+
+With your UW SSEC model selected, try a simple prompt in the Chat panel:
 
 ```text
 What is this repository for?
 ```
 
 If Copilot Chat responds with a description of the sandbox, the provider and gateway are working.
-
-### Step 3 — Select a model
-
-Open the model picker inside Copilot Chat (the model name shown near the input box).
-
-OAI-compatible models routed through the LLMaven gateway will appear alongside standard GitHub Copilot models. Select one of the OAI-compatible models to route requests through the LLMaven / LiteLLM gateway.
-
-See the [Copilot model picker screenshot](docs/assets/copilot-model-picker.png).
-
-![Copilot Chat model picker showing OAI-compatible models](docs/assets/copilot-model-picker.png)
 
 ### Step 4 — Explore freely in Copilot Chat
 
@@ -86,7 +101,7 @@ Note: the UW SSEC RSE Agent Plugins are installed as Copilot **CLI** plugins, no
 
 ### Step 5 — Use the Copilot CLI for RSE plugin workflows
 
-The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMaven gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI is the surface where the RSE Agent Plugins (slash commands, agents, skills) are available.
+The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI is the surface where the RSE Agent Plugins (slash commands, agents, skills) are available.
 
 **When to stay in Chat:**
 
@@ -105,7 +120,7 @@ Start an interactive session from the terminal:
 copilot
 ```
 
-The CLI is pinned to `gpt-5.3-codex` (set via `COPILOT_MODEL`) — it is the only model qualified for the CLI-driven RSE plugin workflows in this sandbox. Do not switch the CLI model with `/model`. Model selection in Copilot Chat (Step 3) is a separate surface and is unaffected.
+The CLI is pinned to `gpt-5.3-codex` (set via `COPILOT_MODEL`) — it is the only model qualified for the CLI-driven RSE plugin workflows in this sandbox. Do not switch the CLI model with `/model`. Model selection in Copilot Chat (Step 2) is a separate surface and is unaffected.
 
 Try an RSE Agent Plugin slash command (provided by `ai-research-workflows@rse-plugins`):
 
@@ -135,7 +150,7 @@ docs/save-your-work.md
 
 ## Data and evaluation notes
 
-AI interactions in this environment may be routed through the LLMaven / LiteLLM gateway for research and evaluation purposes.
+AI interactions in this environment may be routed through the LLMoxie / LiteLLM gateway for research and evaluation purposes.
 
 See:
 
@@ -145,6 +160,6 @@ docs/data-collection.md
 
 ## Trust assumptions
 
-This sandbox installs a pinned LLMaven Copilot Provider VSIX during devcontainer setup. The VSIX is verified against a SHA256 value committed in this repository before installation.
+This sandbox installs a pinned LLMoxie Model Provider VSIX during devcontainer setup. The VSIX is verified against a SHA256 value committed in this repository before installation.
 
 The provider extension uses a gateway credential provisioned through the authorized onboarding flow. Use this sandbox only from trusted Codespace sessions created through that flow.
