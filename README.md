@@ -27,10 +27,6 @@ RSE Agent Plugins
   → provide RSE-specific skills, agents, and slash commands via the Copilot CLI marketplace
 ```
 
-See the [three-layer sandbox view](docs/assets/sandbox-three-layer-view.png), which shows the RSE Agent Plugins list, the LLMaven Copilot Provider extension, and the Copilot Chat model picker in one VS Code workspace.
-
-![Three-layer sandbox view showing RSE Agent Plugins, the LLMaven Copilot Provider, and Copilot Chat](docs/assets/sandbox-three-layer-view.png)
-
 The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities.
 
 ## Sandbox walkthrough
@@ -109,12 +105,7 @@ Start an interactive session from the terminal:
 copilot
 ```
 
-The CLI default model is `gpt-5.3-codex` (set via `COPILOT_MODEL`); the Chat extension defaults to `gpt-5.4-mini`. Switch models in-session with the `/model` slash command. Available model IDs depend on what the LLMaven gateway exposes — for example:
-
-```text
-/model gpt-5.4-mini
-/model gpt-oss-120b
-```
+The CLI is pinned to `gpt-5.3-codex` (set via `COPILOT_MODEL`) — it is the only model qualified for the CLI-driven RSE plugin workflows in this sandbox. Do not switch the CLI model with `/model`. Model selection in Copilot Chat (Step 3) is a separate surface and is unaffected.
 
 Try an RSE Agent Plugin slash command (provided by `ai-research-workflows@rse-plugins`):
 
