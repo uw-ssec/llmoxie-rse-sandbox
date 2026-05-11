@@ -9,7 +9,7 @@ It provides a preconfigured GitHub Codespaces workspace where authorized users c
 - A user-facing evaluation environment for research software engineering (RSE) AI workflows
 - A GitHub Codespaces sandbox with scientific Python tooling managed by Pixi
 - A pinned LLMaven Copilot Provider extension for routing Copilot-compatible requests through the LLMaven / LiteLLM gateway
-- Workspace recommendations for UW SSEC RSE Agent Plugins
+- Copilot CLI marketplace registration for UW SSEC RSE Agent Plugins
 - Guided documentation for first-time demo users
 
 ## How the pieces fit together
@@ -24,7 +24,7 @@ LLMaven Copilot Provider
   → routes Copilot Chat model requests through the LLMaven / LiteLLM gateway
 
 RSE Agent Plugins
-  → provide RSE-specific skills, agents, and workflows inside Copilot Chat
+  → provide RSE-specific skills, agents, and slash commands via the Copilot CLI marketplace
 ```
 
 See the [three-layer sandbox view](docs/assets/sandbox-three-layer-view.png), which shows the RSE Agent Plugins list, the LLMaven Copilot Provider extension, and the Copilot Chat model picker in one VS Code workspace.
@@ -74,54 +74,63 @@ See the [Copilot model picker screenshot](docs/assets/copilot-model-picker.png).
 
 ![Copilot Chat model picker showing OAI-compatible models](docs/assets/copilot-model-picker.png)
 
-### Step 4 — Try an RSE workflow in Copilot Chat
+### Step 4 — Explore freely in Copilot Chat
 
-With the plugins installed and a model selected, try a workflow prompt in Copilot Chat:
+With a model selected, use Copilot Chat for open-ended, conversational work — exploring unfamiliar code, asking design questions, or drafting changes interactively.
 
 ```text
-Use the scientific-python-development plugin to review this repository for testing, dependency, and API design issues.
+What scientific Python packages are available in this workspace, and how is the environment managed?
 ```
 
 ```text
-Use the project-management plugin to assess onboarding and handoff readiness for this repository.
+Summarize the structure of the files under samples/ and flag any obvious issues.
 ```
 
-```text
-Use the research-software-design plugin to identify user, workflow, and design risks in this project.
-```
+Note: the UW SSEC RSE Agent Plugins are installed as Copilot **CLI** plugins, not Chat plugins. To invoke plugin-backed workflows (research, planning, handoff, validation), move to the Copilot CLI in Step 5.
 
-The plugin provides RSE-specific skills, agents, or slash commands that appear inside Copilot Chat.
+### Step 5 — Use the Copilot CLI for RSE plugin workflows
 
-### Step 5 — Move to the Copilot CLI for scripted workflows
-
-Once the Chat interaction is working, use the Copilot CLI for workflows that benefit from shell integration, file output, or scripted repetition.
+The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMaven gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI is the surface where the RSE Agent Plugins (slash commands, agents, skills) are available.
 
 **When to stay in Chat:**
 
-- Exploring unfamiliar code or tooling
-- Interactive back-and-forth questions
-- Plugin discovery and testing new workflows
+- Exploring unfamiliar code or tooling interactively
+- Back-and-forth design and Q&A
 
 **When to move to the CLI:**
 
-- Automating a repeated workflow across multiple files or repositories
-- Piping Copilot output into other shell tools
+- Invoking RSE Agent Plugin slash commands
 - Running plugin-backed tasks non-interactively in a script or CI context
+- Piping Copilot output into other shell tools
 
-The Copilot CLI is installed in the devcontainer, pre-wired to the LLMaven gateway, and the RSE plugin marketplace is registered. The default model is `gpt-5.3-codex`.
-
-Start a chat session from the terminal:
+Start an interactive session from the terminal:
 
 ```text
-gh copilot chat
+copilot
 ```
 
-Switch models in-session using the `/model` slash command:
+The CLI default model is `gpt-5.3-codex` (set via `COPILOT_MODEL`); the Chat extension defaults to `gpt-5.4-mini`. Switch models in-session with the `/model` slash command. Available model IDs depend on what the LLMaven gateway exposes — for example:
 
 ```text
 /model gpt-5.4-mini
 /model gpt-oss-120b
 ```
+
+Try an RSE Agent Plugin slash command (provided by `ai-research-workflows@rse-plugins`):
+
+```text
+/research What testing, dependency, and API design issues exist in this repository?
+```
+
+```text
+/plan Draft a roadmap to improve onboarding and handoff readiness for this project.
+```
+
+```text
+/validate Identify user, workflow, and design risks in this project.
+```
+
+Other commands provided by the plugin: `/experiment`, `/handoff`, `/implement`, `/iterate-plan`.
 
 ## Saving your work
 

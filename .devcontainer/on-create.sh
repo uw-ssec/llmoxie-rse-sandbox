@@ -48,4 +48,4 @@ fi
 
 echo ""
 echo "[on-create] Workspace bootstrap complete."
-echo "[on-create] Next step: open docs/getting-started.md"
+echo "[on-create] Next step: open README.md for the sandbox walkthrough"
