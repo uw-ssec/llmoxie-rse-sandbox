@@ -1,24 +1,44 @@
 {
   "name": "LLMaven RSE Sandbox",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:595c725f99b95b329bfa0f49436798914d90afc17e7779d669fcfa880b4a9f95",
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
         "GitHub.copilot-chat",
-        "johnny-zhao.oai-compatible-copilot",
         "ms-python.python",
         "ms-python.vscode-pylance"
       ],
       "settings": {
+        "chat.plugins.enabled": false,
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.pixi/envs/default/bin/python",
+        "python.useEnvironmentsExtension": false,
+        "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
+        "oaicopilot.models": [
+          {
+              "id": "gpt-5.4-mini",
+              "displayName": "GPT 5.4 Mini (UW SSEC)",
+              "owned_by": "uw-ssec",
+              "temperature": 1,
+              "isUserSelectable": true,
+              "isDefault": true,
+              "extra": {
+                  "allowed_openai_params": ["top_p"]
+              }
+          },
+          {
+              "id": "gpt-oss-120b",
+              "displayName": "GPT OSS 120B (UW SSEC)",
+              "owned_by": "uw-ssec",
+              "isUserSelectable": true
+          }
+      ],
         "workbench.startupEditor": "readme",
         "files.watcherExclude": {
           "**/.git/objects/**": true,
           "**/.git/subtree-cache/**": true,
-          "**/node_modules/*/**": true
+          "**/node_modules/**": true,
+          "**/.pixi/**": true
         }
       }
     }
@@ -34,7 +54,23 @@
   "mounts": [
     "source=${localWorkspaceFolderBasename}-pixi,target=${containerWorkspaceFolder}/.pixi,type=volume"
   ],
+  "remoteEnv": {
+    // OAI_API_KEY is placed in remoteEnv because the LLMaven Copilot extension runtime reads
+    // that OpenAI-compatible environment variable at activation time. Setting it only around
+    // lifecycle shell commands would not propagate to the VS Code extension host.
+    "OAI_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    // Point the GitHub Copilot CLI (BYOK) at the same LLMaven gateway used by the
+    // oaicopilot extension so the CLI exposes the same models. Users can switch
+    // among the available models in-session via the /model slash command
+    // (e.g. /model gpt-5.4-mini, /model gpt-5.4-pro, /model gpt-oss-120b).
+    "COPILOT_PROVIDER_BASE_URL": "${localEnv:LITELLM_BASE_URL}/v1",
+    "COPILOT_PROVIDER_API_KEY": "${localEnv:LITELLM_API_KEY}",
+    "COPILOT_MODEL": "gpt-5.3-codex",
+    "COPILOT_PROVIDER_WIRE_API": "responses"
+  },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
+  "postAttachCommand": "bash .devcontainer/install-vsix.sh",
   "remoteUser": "vscode"
 }

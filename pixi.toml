@@ -5,16 +5,13 @@ description = "NAIRR RSE sandbox environment"
 authors = ["UW SSEC Team"]
 requires-pixi = ">=0.63.2"
 channels = ["conda-forge"]
-platforms = ["linux-64", "osx-arm64"]
+platforms = ["linux-64", "osx-arm64", "linux-aarch64"]
 
 [dependencies]
 python = "3.11.*"
 numpy = ">=2.4,<3"
 pandas = ">=3.0,<4"
-matplotlib = ">=3.10,<4"
+matplotlib-base = ">=3.10,<4"
 xarray = ">=2026.2,<2027"
 netcdf4 = ">=1.7,<2"
 requests = ">=2.33,<3"
-
-[tasks]
-gateway-check = "python check_llmaven_gateway.py"

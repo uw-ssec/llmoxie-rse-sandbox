@@ -1,23 +1,19 @@
 # Base image intentionally uses "base" (not python) because
 # environment + dependencies are managed via pixi, not system Python.
-FROM mcr.microsoft.com/devcontainers/base:jammy
+FROM mcr.microsoft.com/devcontainers/base:dev-ubuntu26.04
+
+# Use bash for RUN so pipefail is supported.
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG PIXI_VERSION=v0.63.2
 ARG PIXI_SHA256_X86_64=b2a9e26bb6c80fe00618a02e7198dec222e1fbcec61e04c11b6e6538089ab100
 ARG PIXI_SHA256_AARCH64=dbde6dbc2806602171e17305ce005e1aed519f2f2461a7cafd0093e92b7e7681
 
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    curl \
-    git \
-    jq \
-    tar \
-    && rm -rf /var/lib/apt/lists/*
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# curl, git, jq, tar, and ca-certificates are provided by the
+# mcr.microsoft.com/devcontainers/base image, so no apt install step is needed.
 
 # Install pixi by verifying against reviewed, pinned SHA256 values in this Dockerfile.
-RUN set -euo pipefail \
+RUN set -eu \
     && ARCH="$(uname -m)" \
     && case "${ARCH}" in \
         x86_64) PIXI_ARCH="x86_64"; PIXI_SHA256="${PIXI_SHA256_X86_64}" ;; \
@@ -34,9 +30,32 @@ RUN set -euo pipefail \
 
 ENV VSCODE_HOME=/home/vscode \
     VSCODE_USER=vscode \
-    SHELL=/bin/bash
+    SHELL=/bin/bash \
+    PATH=/home/vscode/.local/bin:${PATH}
 
 USER ${VSCODE_USER}
 WORKDIR /workspaces/llmaven-rse-sandbox
 
 RUN echo 'eval "$(pixi completion -s bash)"' >> ${VSCODE_HOME}/.bashrc
+
+# Pre-install GitHub Copilot CLI and the rse-plugins marketplace plugins
+# during the image build so the devcontainer is ready on attach.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/install-plugins.sh /tmp/install-plugins.sh
+RUN bash /tmp/install-plugins.sh && rm -f /tmp/install-plugins.sh
+
+# Pre-populate the pixi package cache so that onCreateCommand's `pixi install`
+# resolves packages from disk instead of downloading from conda-forge.
+# The .pixi env directory is removed afterwards because it will be created
+# inside the Docker volume mount at container-create time.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} pixi.toml pixi.lock /tmp/pixi-warmup/
+RUN cd /tmp/pixi-warmup \
+    && pixi install --locked \
+    && rm -rf /tmp/pixi-warmup/.pixi \
+    && rm -rf /tmp/pixi-warmup
+
+# Pre-download and verify the OAI-compatible Copilot VSIX so that
+# postCreateCommand can skip the network fetch on first container create.
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/oai-compatible-copilot-vsix.env /tmp/oai-compatible-copilot-vsix.env
+COPY --chown=${VSCODE_USER}:${VSCODE_USER} .devcontainer/post-create.sh /tmp/post-create.sh
+RUN bash /tmp/post-create.sh \
+    && rm -f /tmp/post-create.sh /tmp/oai-compatible-copilot-vsix.env
