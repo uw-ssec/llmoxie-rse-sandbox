@@ -1,6 +1,11 @@
 {
   "name": "LLMaven RSE Sandbox",
   "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:8ed8e1e6fe3e77515e728daea81897898513d9a7c602033f7c40125ad3371fb0",
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
   "customizations": {
     "vscode": {
       "extensions": [

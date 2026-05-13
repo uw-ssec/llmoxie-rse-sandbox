@@ -152,6 +152,16 @@ This keeps the shared sandbox source clean while letting you preserve your own w
 
 **Heads-up — forking does not carry gateway access.** The LLMoxie / LiteLLM gateway credentials are provisioned for this sandbox specifically and are not part of the repository contents. A GitHub Codespace launched from your own fork will not have those credentials, so Copilot Chat and the Copilot CLI in that Codespace will not be able to route requests through the UW SSEC models. Use the sandbox Codespace for AI-routed workflows; use your fork to preserve code changes.
 
+## Cost & resource limits
+
+Codespaces launched from this repository are configured with minimum viable resource specifications:
+
+- **Machine type:** 2-core CPU, 8 GB RAM, 32 GB storage (the most cost-efficient option for this workload)
+- **Idle timeout:** 30 minutes (configure at the organization level; idle Codespaces automatically stop after this period to prevent unexpected costs)
+- **Spending limits:** Organization administrators should configure Codespace spending limits as a safeguard, especially during high-concurrency events
+
+These defaults are designed to keep costs predictable for demo and workshop scenarios.
+
 ## Data and evaluation notes
 
 AI interactions in this environment may be routed through the LLMoxie / LiteLLM gateway for research and evaluation purposes. The intended design is to support de-identified logging using session-level identifiers rather than personal identity.
