@@ -41,6 +41,10 @@ Follow these steps to go from opening the sandbox to your first successful RSE w
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
 > research loop in Copilot Chat — packaging the `samples/` climate scripts — with each
 > instruction on screen beside the chat panel.
+>
+> **Prefer a research story?** `docs/slides/research-loop-ocean.md` tells the same loop as a
+> hypothesis-driven oceanographic arc — testing a warming trend in synthetic buoy data — and
+> features the `/experiment` and `/reproduce` phases the packaging deck skips.
 
 ### Step 1 — Open the Codespace
 
