@@ -1,6 +1,6 @@
 ---
 agent: agent
-description: 'Systematically verify an implementation against its plan and report pass/fail with evidence.'
+description: 'Validate that an implementation was correctly executed against its plan'
 tools: ['read', 'search/codebase', 'search', 'execute/runInTerminal', 'edit/editFiles']
 ---
 

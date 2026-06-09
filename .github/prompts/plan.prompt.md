@@ -1,6 +1,6 @@
 ---
 agent: agent
-description: 'Turn research into a phased, testable implementation plan written to docs/rse/specs/.'
+description: 'Create a detailed implementation plan through interactive research and iteration'
 tools: ['read', 'search/codebase', 'search', 'search/usages', 'edit/editFiles']
 ---
 

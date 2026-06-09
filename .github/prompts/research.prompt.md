@@ -1,6 +1,6 @@
 ---
 agent: agent
-description: 'Document how a codebase or topic works today, and write the findings to docs/rse/specs/.'
+description: 'Research the codebase and/or external prior art to build context for a task'
 tools: ['read', 'search/codebase', 'search', 'search/usages', 'edit/editFiles']
 ---
 

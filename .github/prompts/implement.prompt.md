@@ -1,6 +1,6 @@
 ---
 agent: agent
-description: 'Execute an approved plan phase by phase, verifying as you go, then write an implementation report to docs/rse/specs/.'
+description: 'Implement changes based on an approved plan, tracking progress phase by phase'
 tools: ['read', 'edit/editFiles', 'search/codebase', 'search', 'execute/runInTerminal']
 ---
 
