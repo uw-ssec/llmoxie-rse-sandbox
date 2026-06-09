@@ -71,7 +71,7 @@
     "COPILOT_PROVIDER_WIRE_API": "responses"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postCreateCommand": "bash .devcontainer/post-create.sh && bash .devcontainer/install-skills.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
   "postAttachCommand": "bash .devcontainer/install-vsix.sh",
   "remoteUser": "vscode"
