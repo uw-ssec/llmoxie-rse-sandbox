@@ -209,3 +209,7 @@ __marimo__/
 
 # Superpowers brainstorming/spec docs (local only)
 docs/superpowers/
+
+# Skills generated into Copilot by .devcontainer/install-skills.sh
+# (source of truth is the vendor/rse-plugins submodule)
+.github/skills/
