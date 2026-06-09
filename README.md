@@ -37,6 +37,11 @@ The Copilot provider extension and the RSE Agent Plugins are separate. The provi
 
 Follow these steps to go from opening the sandbox to your first successful RSE workflow interaction.
 
+> **Prefer a guided, slide-by-slide demo?** Open `docs/slides/research-loop.md` and choose
+> "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
+> research loop in Copilot Chat — packaging the `samples/` climate scripts — with each
+> instruction on screen beside the chat panel.
+
 ### Step 1 — Open the Codespace
 
 Start from the authorized onboarding flow or from the repository page and open a GitHub Codespace for this repository.
