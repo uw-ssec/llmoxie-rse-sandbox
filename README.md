@@ -14,6 +14,7 @@ This specific sandbox provides a preconfigured GitHub Codespaces workspace for e
 - A GitHub Codespaces sandbox with scientific Python tooling managed by Pixi
 - A pinned LLMoxie Model Provider extension for routing Copilot-compatible requests through the LLMoxie / LiteLLM gateway
 - Copilot CLI marketplace registration for UW SSEC RSE Agent Plugins
+- Copilot Chat prompt files (`.github/prompts/`) that expose the RSE workflow slash commands — `/research`, `/plan`, `/implement`, `/validate`, `/experiment`, `/reproduce`, `/iterate-plan`, `/harden`, `/handoff` — directly in the Chat panel
 - Guided documentation for first-time demo users
 
 ## How the pieces fit together
@@ -28,16 +29,17 @@ LLMoxie Model Provider
   → routes Copilot Chat model requests through the LLMoxie / LiteLLM gateway
 
 RSE Agent Plugins
-  → provide RSE-specific skills, agents, and slash commands via the Copilot CLI marketplace
+  → provide RSE-specific skills, agents, and slash commands
 ```
 
-The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities.
+The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities, reachable from two surfaces: slash commands in Copilot Chat (backed by the prompt files in `.github/prompts/`, which hand off to the plugin skills) and the Copilot CLI (via the registered plugin marketplace).
 
 ## Sandbox walkthrough
 
 Follow these steps to go from opening the sandbox to your first successful RSE workflow interaction.
 
-> **Prefer a guided, slide-by-slide demo?** Open `docs/slides/research-loop.md` and choose
+> **Prefer a guided, slide-by-slide demo?** Complete Steps 1–2 below first (Codespace
+> launched, UW SSEC model selected), then open `docs/slides/research-loop.md` and choose
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
 > research loop in Copilot Chat — packaging the `samples/` climate scripts — with each
 > instruction on screen beside the chat panel.
@@ -108,20 +110,20 @@ What scientific Python packages are available in this workspace, and how is the 
 Summarize the structure of the files under samples/ and flag any obvious issues.
 ```
 
-Note: the UW SSEC RSE Agent Plugins are installed as Copilot **CLI** plugins, not Chat plugins. To invoke plugin-backed workflows (research, planning, handoff, validation), move to the Copilot CLI in Step 5.
+The RSE workflow slash commands also work right here in Chat: typing `/research`, `/plan`, `/implement`, `/validate`, `/experiment`, `/reproduce`, `/iterate-plan`, `/harden`, or `/handoff` runs the matching prompt file from `.github/prompts/`, which hands off to the corresponding RSE Agent Plugin skill. This is the surface the guided decks in `docs/slides/` use. The same workflows are also available from the Copilot CLI (Step 5) for scripted or non-interactive use.
 
 ### Step 5 — Use the Copilot CLI for RSE plugin workflows
 
-The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI is the surface where the RSE Agent Plugins (slash commands, agents, skills) are available.
+The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI loads the RSE Agent Plugins (slash commands, agents, skills) directly from that marketplace — the same workflows the Chat prompt files hand off to.
 
 **When to stay in Chat:**
 
 - Exploring unfamiliar code or tooling interactively
 - Back-and-forth design and Q&A
+- Running the RSE workflow slash commands alongside the guided decks in `docs/slides/`
 
 **When to move to the CLI:**
 
-- Invoking RSE Agent Plugin slash commands
 - Running plugin-backed tasks non-interactively in a script or CI context
 - Piping Copilot output into other shell tools
 
@@ -147,7 +149,7 @@ Try an RSE Agent Plugin slash command (provided by `ai-research-workflows@rse-pl
 /validate Identify user, workflow, and design risks in this project.
 ```
 
-Other commands provided by the plugin: `/experiment`, `/handoff`, `/implement`, `/iterate-plan`.
+Other commands provided by the plugin: `/experiment`, `/handoff`, `/harden`, `/implement`, `/iterate-plan`, `/reproduce`.
 
 ## Saving your work
 

@@ -78,6 +78,7 @@ Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
 - `buoy_sst.csv` — ~10 years of daily `sst_c`
 - `README.md` — documents the data's **ground truth** so you can check the loop's answer
 - `generate_buoy_sst.py` — the seeded generator that produced it
+- `test_generate_buoy_sst.py` — a regression test pinning the generator to that truth
 
 **Hypothesis:** this buoy's SST has a warming trend *beyond* its seasonal cycle.
 **Goal:** is the warming real, and how big? We'll run the loop and check the answer against the documented truth (≈ 0.03 °C/yr).
@@ -225,7 +226,7 @@ Committed alongside the code, this survives the session and transfers to the nex
 
 - Swap the buoy scenario for **your** data and question — the arc is the same.
 - Use **`/handoff`** to carry full context into a fresh chat when a session gets long.
-- When the result must be trustworthy, run **`/harden`**: regression and correctness tests against a known reference (here, the documented ground truth).
+- When the result must be trustworthy, run **`/harden`**: regression and correctness tests against a known reference. Here, `test_generate_buoy_sst.py` already pins the *data*; `/harden` adds the same protection to your *analysis*.
 - Put your conventions, data shapes, and "don't touch X" in **`AGENTS.md`** (or `.github/copilot-instructions.md`) — that's where your research context lives.
 
 > Same loop, your science. From hypothesis to a result you can defend.
