@@ -8,4 +8,4 @@ Use the `creating-handoffs` skill to handle this request.
 
 Optional focus note: ${input:note:anything to emphasize in the handoff (blank = summarize the whole session)}
 
-If nothing was provided, enter the skill's Collaborative mode and ask what is needed before proceeding.
+If no focus note was provided, summarize the whole session in the handoff.
