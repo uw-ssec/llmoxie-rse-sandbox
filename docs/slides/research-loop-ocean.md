@@ -38,7 +38,7 @@ A **workflow** is a named, reusable prompt that runs one phase and writes a dura
 | 3. Test the methods | `/experiment` | `docs/rse/specs/experiment-<slug>.md` |
 | 4. Implement | `/implement` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
 | 5. Get results | `/validate` | `docs/rse/specs/validation-<slug>.md` |
-| 6. Make it reproducible | `/reproduce` | `docs/rse/specs/reproducibility-<slug>.md` |
+| 6. Make it reproducible | `/reproduce` | a `## Reproducibility` section in `experiment-`/`implement-<slug>.md` |
 
 `/harden` (regression + correctness tests) is the natural next step — we name it at the end.
 
@@ -91,7 +91,7 @@ Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
 In Copilot Chat, type:
 
 ```text
-/research methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
+/research I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
 ```
 
 **You'll see:** a survey of approaches — decomposition methods (harmonic regression, STL, moving-average deseasonalization) plus a robust slope estimator (Theil–Sen) to apply to the deseasonalized residuals — with trade-offs.
@@ -192,14 +192,14 @@ git add -A && git commit -m "implement: phase N"
 ## Phase 6 — `/reproduce`
 
 ```text
-/reproduce the warming-trend estimate from the samples/ocean analysis
+/reproduce the warming-trend estimate from the samples/ocean experiment
 ```
 
-**You'll see:** a provenance record — interpreter and lockfile, code commit, the data's seed and hash, config, and the exact commands to re-run.
+**You'll see:** a provenance record — interpreter + `pixi.lock`, code commit, the data's seed and content hash, config, exact commands — captured **and then re-run in a clean environment** to confirm the result holds.
 
-**Then open:** `docs/rse/specs/reproducibility-*.md`.
+**Where it lands:** the skill **appends a `## Reproducibility` section to the artifact that already holds the result** — `experiment-<slug>.md` (or `implement-<slug>.md`) — not a separate file. It only creates `reproducibility-<slug>.md` when there's no existing artifact to append to.
 
-> A result with a provenance record is a reproducible finding. Without one, it's just a number in a chat.
+> A record isn't reproducible until it's been reproduced. Capturing env, seed, and commands is necessary; re-running them in a clean room is what turns the claim into a finding.
 
 ---
 
@@ -208,12 +208,11 @@ git add -A && git commit -m "implement: phase N"
 Six phases later, `docs/rse/specs/` holds a **cross-linked research record**:
 
 ```text
-research-<slug>.md        ← the methods
-plan-<slug>.md            → cites the research
-experiment-<slug>.md      → tests the methods
-implement-<slug>.md       → cites the plan
-validation-<slug>.md      → cites the plan's criteria
-reproducibility-<slug>.md → pins env, seed, data, commands
+research-<slug>.md     ← the methods
+plan-<slug>.md         → cites the research
+experiment-<slug>.md   → tests the methods (+ ## Reproducibility: env, seed, data, commands)
+implement-<slug>.md    → cites the plan
+validation-<slug>.md   → cites the plan's criteria
 ```
 
 Committed alongside the code, this survives the session and transfers to the next person — hypothesis, evidence, and provenance intact.
