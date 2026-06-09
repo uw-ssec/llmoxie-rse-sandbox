@@ -20,7 +20,7 @@ The signal is `sst = MEAN + AMP·sin(2π·doy/365.25 + PHASE) + WARMING·years +
 |---|---|---|
 | `MEAN` | 14.0 °C | Annual-mean SST |
 | `AMP` | 5.0 °C | Seasonal amplitude |
-| `PHASE` | -1.5 rad | Seasonal phase (late-summer peak) |
+| `PHASE` | -1.5 rad | Seasonal phase (midsummer peak, ~day 178) |
 | `WARMING` | **0.03 °C/yr** | The trend a correct analysis must recover |
 | `NOISE_SD` | 0.5 °C | Daily observational noise |
 | `SEED` | 20260608 | RNG seed (data provenance) |

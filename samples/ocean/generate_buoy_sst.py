@@ -20,7 +20,7 @@ import pandas as pd
 # --- Ground-truth parameters (also documented in README.md) ---
 MEAN = 14.0          # °C, annual-mean SST
 AMP = 5.0            # °C, seasonal amplitude
-PHASE = -1.5         # radians, shifts the seasonal peak toward late summer
+PHASE = -1.5         # radians, shifts the seasonal peak toward midsummer (~day 178)
 WARMING = 0.03       # °C per year — the trend the research loop should recover
 NOISE_SD = 0.5       # °C, daily observational noise
 SEED = 20260608      # RNG seed (this is also the data's provenance)
