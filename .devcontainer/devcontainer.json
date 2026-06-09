@@ -1,6 +1,15 @@
 {
   "name": "LLMaven RSE Sandbox",
   "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:8ed8e1e6fe3e77515e728daea81897898513d9a7c602033f7c40125ad3371fb0",
+  // Node provides the `npx` that install-skills.sh uses to install the
+  // ai-research-workflows skills into Copilot. The pinned base image ships no
+  // Node, so add it as a create-time feature (applied before the lifecycle
+  // scripts run) rather than relying on the image.
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
