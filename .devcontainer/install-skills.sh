@@ -35,6 +35,12 @@ log()   { printf "      [%s] %s\n" "${STAGE}" "$*"; }
 warn()  { printf "%b  !   [%s] %s%b\n" "${YELLOW}" "${STAGE}" "$*" "${RESET}"; }
 error() { printf "%b      [%s] ERROR: %s%b\n" "${RED}" "${STAGE}" "$*" "${RESET}" >&2; }
 
+if ! command -v npx >/dev/null 2>&1; then
+  warn "npx not found; skipping skills install."
+  warn "Copilot Chat still works via the in-repo prompt files under .github/prompts/."
+  exit 0
+fi
+
 say 1 "Locating rse-plugins ai-research-workflows plugin"
 if [ ! -f "${PLUGIN_DIR}/.claude-plugin/plugin.json" ]; then
   warn "Plugin not found at ${PLUGIN_DIR}"
