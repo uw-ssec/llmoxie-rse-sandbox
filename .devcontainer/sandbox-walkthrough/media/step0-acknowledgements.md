@@ -17,5 +17,10 @@ Thank you to these organizations for making this sandbox possible — check the
 step off and continue.
 
 <p align="center">
-  <img src="partner-logos-banner.svg" alt="UW Scientific Software Engineering Center (SSEC), eScience Institute, University of Washington, and Schmidt Sciences" width="420">
+  <img src="ssec-escience-banner.svg" alt="UW Scientific Software Engineering Center (SSEC) and eScience Institute" width="420">
+</p>
+
+<p align="center">
+  <img src="uw-banner.svg" alt="University of Washington" width="205">
+  <img src="schmidt-sciences-banner.svg" alt="Schmidt Sciences" width="205">
 </p>
