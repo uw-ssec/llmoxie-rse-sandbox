@@ -55,13 +55,38 @@ find_python() {
   return 1
 }
 
+find_code() {
+  # The /usr/local/bin/code shim is unreliable in non-interactive postAttach
+  # shells ("code or code-insiders is not installed"), so resolve the VS Code
+  # Server remote-cli directly — same approach as install-vsix.sh. Fall back
+  # to whatever `code` is on PATH (e.g. the desktop CLI on a local machine).
+  local candidate
+  for candidate in \
+    "${HOME}"/.vscode-server/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-server-insiders/bin/*/bin/remote-cli/code \
+    "${HOME}"/.vscode-remote/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/*/bin/remote-cli/code \
+    /vscode/vscode-server/bin/linux-*/*/bin/remote-cli/code; do
+    if [ -x "${candidate}" ]; then
+      printf '%s\n' "${candidate}"
+      return 0
+    fi
+  done
+  if command -v code >/dev/null 2>&1; then
+    command -v code
+    return 0
+  fi
+  return 1
+}
+
 main() {
   say "Installing the Get Started walkthrough extension"
 
-  command -v code >/dev/null 2>&1 || bail "'code' CLI not found"
+  CODE_BIN="$(find_code)" || bail "no usable 'code' CLI found (searched VS Code Server remote-cli roots and PATH)"
+  log "using VS Code CLI: ${CODE_BIN}"
   PY="$(find_python)" || bail "no python3 available to build the .vsix"
 
-  if code --list-extensions 2>/dev/null | grep -qix "${EXTENSION_ID}"; then
+  if "${CODE_BIN}" --list-extensions 2>/dev/null | grep -qix "${EXTENSION_ID}"; then
     log "already installed: ${EXTENSION_ID}"
     exit 0
   fi
@@ -102,9 +127,9 @@ PYEOF
   ) || bail ".vsix build failed"
 
   log "installing via 'code --install-extension'"
-  code --install-extension "${VSIX_PATH}" || bail "code --install-extension failed"
+  "${CODE_BIN}" --install-extension "${VSIX_PATH}" || bail "code --install-extension failed"
 
-  if code --list-extensions 2>/dev/null | grep -qix "${EXTENSION_ID}"; then
+  if "${CODE_BIN}" --list-extensions 2>/dev/null | grep -qix "${EXTENSION_ID}"; then
     log "installed and registered: ${EXTENSION_ID}"
   else
     warn "installed but not yet listed — it should appear after the window reloads."
