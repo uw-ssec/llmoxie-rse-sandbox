@@ -106,7 +106,7 @@ main() {
   cp "${EXT_SRC}/[Content_Types].xml" "${STAGE}/[Content_Types].xml"
   cp "${EXT_SRC}/package.json" "${EXT_SRC}/extension.js" "${EXT_SRC}/README.md" "${STAGE}/extension/"
   mkdir -p "${STAGE}/extension/media"
-  cp "${EXT_SRC}/media/"*.md "${EXT_SRC}/media/"*.png "${STAGE}/extension/media/"
+  cp "${EXT_SRC}/media/"*.md "${EXT_SRC}/media/"*.png "${EXT_SRC}/media/"*.svg "${STAGE}/extension/media/"
 
   VSIX_PATH="${STAGE}/llmoxie-sandbox-walkthrough.vsix"
   log "building ${VSIX_PATH##*/} with python zipfile"

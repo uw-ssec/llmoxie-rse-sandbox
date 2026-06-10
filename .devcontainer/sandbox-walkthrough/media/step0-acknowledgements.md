@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot — National Artificial Intelligence Research Resource Pilot" width="420">
+</p>
+
 ## The organizations behind this sandbox
 
 LLMoxie is developed by the
