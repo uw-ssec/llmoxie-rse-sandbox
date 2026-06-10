@@ -2,7 +2,8 @@ const vscode = require("vscode");
 
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
-const SHOWN_KEY = "llmoxieWalkthroughShown";
+// Rotate the suffix when an update should re-show the walkthrough once.
+const SHOWN_KEY = "llmoxieWalkthroughShown.v2";
 
 async function activate(context) {
   // Open the walkthrough automatically the first time this Codespace loads
