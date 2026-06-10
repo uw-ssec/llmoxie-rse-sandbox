@@ -138,7 +138,7 @@ PYEOF
     warn "installed but not yet listed — it should appear after the window reloads."
   fi
 
-  say "walkthrough ready — it opens on the next window load (or Help > Welcome > LLMoxie RSE Sandbox)"
+  say "walkthrough ready — it opens automatically (reopen via Help > Welcome > LLMoxie RSE Sandbox)"
 }
 
 main

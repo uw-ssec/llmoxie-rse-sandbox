@@ -94,6 +94,6 @@
   // this is a fast no-op.
   "postCreateCommand": "pixi install --locked && bash .devcontainer/post-create.sh && bash .devcontainer/install-skills.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
-  "postAttachCommand": "bash .devcontainer/install-vsix.sh && bash .devcontainer/install-walkthrough.sh",
+  "postAttachCommand": "bash .devcontainer/install-vsix.sh && bash .devcontainer/install-walkthrough.sh && bash .devcontainer/setup-complete.sh",
   "remoteUser": "vscode"
 }
