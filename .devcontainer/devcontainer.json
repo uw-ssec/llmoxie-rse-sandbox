@@ -43,7 +43,7 @@
               "isUserSelectable": true
           }
       ],
-        "workbench.startupEditor": "readme",
+        "workbench.startupEditor": "welcomePage",
         "markdown.marp.themes": ["./docs/slides/themes/sandbox.css"],
         "files.watcherExclude": {
           "**/.git/objects/**": true,
@@ -82,6 +82,6 @@
   "onCreateCommand": "bash .devcontainer/on-create.sh",
   "postCreateCommand": "bash .devcontainer/post-create.sh && bash .devcontainer/install-skills.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
-  "postAttachCommand": "bash .devcontainer/install-vsix.sh",
+  "postAttachCommand": "bash .devcontainer/install-vsix.sh && bash .devcontainer/install-walkthrough.sh",
   "remoteUser": "vscode"
 }
