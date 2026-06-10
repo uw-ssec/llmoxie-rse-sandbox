@@ -36,10 +36,24 @@ The Copilot provider extension and the RSE Agent Plugins are separate. The provi
 
 ## Sandbox walkthrough
 
-Follow these steps to go from opening the sandbox to your first successful RSE workflow interaction.
+Open a GitHub Codespace for this repository, starting from the authorized
+onboarding flow or the repository page. First launch takes a few minutes while
+the devcontainer prepares the Pixi environment, the LLMoxie Model Provider
+extension, and the Copilot CLI with the RSE plugins.
 
-> **Prefer a guided, slide-by-slide demo?** Complete Steps 1–2 below first (Codespace
-> launched, UW SSEC model selected), then open `docs/slides/research-loop.md` and choose
+Once VS Code connects, the **Get Started panel** walks you through the rest —
+selecting a UW SSEC model, verifying the gateway, sending your first prompt,
+and opening the guided research-loop decks. Reopen it anytime via
+**Help → Get Started → LLMoxie RSE Sandbox**.
+
+You can also verify the gateway from any terminal:
+
+```bash
+pixi run verify
+```
+
+> **Prefer a guided, slide-by-slide demo?** Complete the Get Started panel's
+> model-selection step first, then open `docs/slides/research-loop.md` and choose
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
 > research loop in Copilot Chat — packaging the `samples/` climate scripts — with each
 > instruction on screen beside the chat panel.
@@ -48,84 +62,25 @@ Follow these steps to go from opening the sandbox to your first successful RSE w
 > hypothesis-driven oceanographic arc — testing a warming trend in synthetic buoy data — and
 > features the `/experiment` and `/reproduce` phases the packaging deck skips.
 
-### Step 1 — Open the Codespace
+### Working in Copilot Chat
 
-Start from the authorized onboarding flow or from the repository page and open a GitHub Codespace for this repository.
+With a UW SSEC model selected, Copilot Chat handles open-ended, conversational
+work — exploring unfamiliar code, design questions, drafting changes.
 
-During first launch, the devcontainer automatically:
+The RSE workflow slash commands work directly in Chat: typing `/research`,
+`/plan`, `/implement`, `/validate`, `/experiment`, `/reproduce`,
+`/iterate-plan`, `/harden`, or `/handoff` runs the matching prompt file from
+`.github/prompts/`, which hands off to the corresponding RSE Agent Plugin
+skill. This is the surface the guided decks in `docs/slides/` use.
 
-- prepares the Pixi Python environment
-- downloads and verifies the pinned LLMoxie Model Provider VSIX
-- installs the provider extension and configures it to route through the LLMoxie / LiteLLM gateway
-- installs the Copilot CLI, wires it to the LLMoxie gateway, and registers the RSE plugin marketplace
+### Using the Copilot CLI for RSE plugin workflows
 
-You will see setup output in the terminal during first launch. Wait for it to complete before continuing.
-
-Once setup completes, the Codespace is ready for use — the README opens in the editor, the Copilot Chat panel is available on the right, and the integrated terminal shows the post-create output.
-
-![GitHub Codespace ready for use after first launch, with README preview, Copilot Chat panel, and terminal visible](docs/assets/codespace-ready.png)
-
-### Step 2 — Select a UW SSEC model
-
-The UW SSEC models routed through the LLMoxie / LiteLLM gateway are contributed by the installed LLMoxie Model Provider extension. On first Codespace launch, you need to open the Language Models manager once (Step 2b) so the picker surfaces them — after that, the UW SSEC entries persist in the chat model picker for this Codespace.
-
-**2a. Open the chat model picker.** Open the Copilot Chat panel in VS Code (the speech-bubble icon in the Activity Bar, or `Ctrl+Shift+I`), then click the model name shown next to the input box. The compact picker lists the most common Copilot subscription models (Auto, Claude Sonnet 4.6, GPT-5.4) plus an "Other Models" section that holds the rest.
-
-![Default Copilot Chat model picker](docs/assets/llmoxie-model-picker-default.png)
-
-**2b. Open the Language Models manager (required on first Codespace launch).** In the top-right of the picker popover (next to the "Search models" input), click the gear icon. The **Language Models** manager opens in the editor area, showing two sections:
-
-- **Copilot** — the built-in models available based on your GitHub Copilot subscription (Claude Sonnet 4.6, GPT-5.4, Gemini 2.5 Pro, and so on).
-- **LLMoxie Gateway** — the UW SSEC models contributed by the installed LLMoxie Model Provider extension: `GPT 5.4 Mini (UW SSEC)` and `GPT OSS 120B (UW SSEC)`.
-
-The UW SSEC entries are already enabled — no toggling needed. Close the manager when done; the picker will now surface them in Step 2c.
-
-![Language Models manager showing the GitHub Copilot subscription models and the UW SSEC LLMoxie Gateway section](docs/assets/llmoxie-language-models-manager.png)
-
-**2c. Select a UW SSEC model.** From the chat model picker, expand "Other Models". The UW SSEC entries appear in the list — `GPT 5.4 Mini (UW SSEC)` and `GPT OSS 120B (UW SSEC)`. Selecting one routes your Copilot Chat requests through the LLMoxie / LiteLLM gateway.
-
-![Chat model picker listing GPT 5.4 Mini (UW SSEC) and GPT OSS 120B (UW SSEC) under Other Models](docs/assets/llmoxie-model-picker-uw-ssec.png)
-
-### Step 3 — Verify the stack with Copilot Chat
-
-**Verify in Chat before moving to the CLI.** A simple chat prompt is the fastest way to confirm the full stack — LLMoxie Model Provider, gateway, and selected UW SSEC model — is working end-to-end.
-
-With your UW SSEC model selected, try a simple prompt in the Chat panel:
-
-```text
-What is this repository for?
-```
-
-If Copilot Chat responds with a description of the sandbox, the provider and gateway are working.
-
-### Step 4 — Explore freely in Copilot Chat
-
-With a model selected, use Copilot Chat for open-ended, conversational work — exploring unfamiliar code, asking design questions, or drafting changes interactively.
-
-```text
-What scientific Python packages are available in this workspace, and how is the environment managed?
-```
-
-```text
-Summarize the structure of the files under samples/ and flag any obvious issues.
-```
-
-The RSE workflow slash commands also work right here in Chat: typing `/research`, `/plan`, `/implement`, `/validate`, `/experiment`, `/reproduce`, `/iterate-plan`, `/harden`, or `/handoff` runs the matching prompt file from `.github/prompts/`, which hands off to the corresponding RSE Agent Plugin skill. This is the surface the guided decks in `docs/slides/` use. The same workflows are also available from the Copilot CLI (Step 5) for scripted or non-interactive use.
-
-### Step 5 — Use the Copilot CLI for RSE plugin workflows
-
-The standalone Copilot CLI is installed in the devcontainer, pre-wired to the LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The CLI loads the RSE Agent Plugins (slash commands, agents, skills) directly from that marketplace — the same workflows the Chat prompt files hand off to.
-
-**When to stay in Chat:**
-
-- Exploring unfamiliar code or tooling interactively
-- Back-and-forth design and Q&A
-- Running the RSE workflow slash commands alongside the guided decks in `docs/slides/`
-
-**When to move to the CLI:**
-
-- Running plugin-backed tasks non-interactively in a script or CI context
-- Piping Copilot output into other shell tools
+The standalone Copilot CLI is installed in the devcontainer, pre-wired to the
+LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The
+CLI loads the RSE Agent Plugins (slash commands, agents, skills) directly from
+that marketplace — the same workflows the Chat prompt files hand off to. Move
+to the CLI for non-interactive use in a script or CI context, or to pipe
+Copilot output into other shell tools.
 
 Start an interactive session from the terminal:
 
@@ -133,7 +88,7 @@ Start an interactive session from the terminal:
 copilot
 ```
 
-The CLI is pinned to `gpt-5.3-codex` (set via `COPILOT_MODEL`) — it is the only model qualified for the CLI-driven RSE plugin workflows in this sandbox. Do not switch the CLI model with `/model`. Model selection in Copilot Chat (Step 2) is a separate surface and is unaffected.
+The CLI is pinned to `gpt-5.3-codex` (set via `COPILOT_MODEL`) — it is the only model qualified for the CLI-driven RSE plugin workflows in this sandbox. Do not switch the CLI model with `/model`. Model selection in Copilot Chat is a separate surface and is unaffected.
 
 Try an RSE Agent Plugin slash command (provided by `ai-research-workflows@rse-plugins`):
 
