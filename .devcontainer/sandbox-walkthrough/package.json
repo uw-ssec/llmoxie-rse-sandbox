@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
@@ -40,6 +40,14 @@
           "**/README.md"
         ],
         "steps": [
+          {
+            "id": "acknowledgements",
+            "title": "Acknowledgements",
+            "description": "This sandbox is made possible by the UW Scientific Software Engineering Center (SSEC) at the eScience Institute, with support from the NSF NAIRR Pilot (award #240292) and Schmidt Sciences through the VISS program.\nCheck this step off and move on.",
+            "media": {
+              "markdown": "media/step0-acknowledgements.md"
+            }
+          },
           {
             "id": "environmentReady",
             "title": "Environment ready",
