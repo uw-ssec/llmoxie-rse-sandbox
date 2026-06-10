@@ -51,12 +51,9 @@
           }
       ],
         // "none" so the openFiles setup note (and later the auto-opened
-        // walkthrough) aren't competing with a welcome tab.
+        // walkthrough) aren't competing with a welcome tab. The setup note's
+        // preview-rendering association lives in .vscode/settings.json.
         "workbench.startupEditor": "none",
-        // Open the setup note rendered, not as markdown source.
-        "workbench.editorAssociations": {
-          "**/docs/codespace-setup.md": "vscode.markdown.preview.editor"
-        },
         "markdown.marp.themes": ["./docs/slides/themes/sandbox.css"],
         "files.watcherExclude": {
           "**/.git/objects/**": true,

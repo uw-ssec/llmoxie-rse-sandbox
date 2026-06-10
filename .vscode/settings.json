@@ -1,0 +1,8 @@
+{
+  // Open the setup note rendered, not as markdown source. Lives in workspace
+  // settings because workbench.editorAssociations is UI-scoped and is not
+  // reliably applied from devcontainer.json (remote machine scope).
+  "workbench.editorAssociations": {
+    "**/docs/codespace-setup.md": "vscode.markdown.preview.editor"
+  }
+}
