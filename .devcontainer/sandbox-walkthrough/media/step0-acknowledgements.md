@@ -15,3 +15,7 @@ and by [Schmidt Sciences](https://www.schmidtsciences.org/) through the
 
 Thank you to these organizations for making this sandbox possible — check the
 step off and continue.
+
+<p align="center">
+  <img src="ssec-escience-banner.svg" alt="UW Scientific Software Engineering Center (SSEC) and eScience Institute" width="420">
+</p>
