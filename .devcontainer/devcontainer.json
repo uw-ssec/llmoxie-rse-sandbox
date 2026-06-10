@@ -80,6 +80,9 @@
     "COPILOT_PROVIDER_WIRE_API": "responses"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
+  // Keep the Codespaces "Setting up" screen until post-create finishes, so
+  // users land in a fully provisioned editor instead of watching setup output.
+  "waitFor": "postCreateCommand",
   "postCreateCommand": "bash .devcontainer/post-create.sh && bash .devcontainer/install-skills.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
   "postAttachCommand": "bash .devcontainer/install-vsix.sh && bash .devcontainer/install-walkthrough.sh",
