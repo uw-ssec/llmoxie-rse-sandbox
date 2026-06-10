@@ -10,12 +10,24 @@ EXPECTED_VSIX_SHA256=""
 VSIX_DIR="${HOME}/.cache/oai-compatible-copilot"
 EXTENSION_ID="uw-ssec.oai-compatible-copilot"
 
+# --- Output styling -------------------------------------------------------
+# Colors are emitted unconditionally (not gated on a tty) because the
+# devcontainer / Codespaces "attaching container" log renders ANSI codes.
+GREEN="\033[0;32m"
+RED="\033[0;31m"
+BOLD="\033[1m"
+RESET="\033[0m"
+
+say() {
+  printf "%b\n==> [post-attach] %s%b\n" "${BOLD}${GREEN}" "$1" "${RESET}"
+}
+
 log() {
-  echo "[post-attach] $*"
+  printf "      [post-attach] %s\n" "$*"
 }
 
 error() {
-  echo "[post-attach] ERROR: $*" >&2
+  printf "%b      [post-attach] ERROR: %s%b\n" "${RED}" "$*" "${RESET}" >&2
 }
 
 require_cmd() {
@@ -172,7 +184,7 @@ log_code_search_diagnostics() {
 }
 
 main_install() {
-  log "Checking OAI-compatible Copilot extension..."
+  say "Checking OAI-compatible Copilot extension"
 
   if ! CODE_BIN="$(find_code)"; then
     log_code_search_diagnostics
@@ -217,9 +229,10 @@ main_install() {
 }
 
 if ! main_install; then
-  echo "" >&2
-  echo "FATAL: Failed to install required OAI-compatible Copilot extension." >&2
-  echo "The VSIX must match the pinned SHA256 before installation." >&2
-  echo "Please check logs above." >&2
+  printf "%b\n      [post-attach] FATAL: Failed to install required OAI-compatible Copilot extension.%b\n" "${RED}${BOLD}" "${RESET}" >&2
+  printf "%b      [post-attach] The VSIX must match the pinned SHA256 before installation.%b\n" "${RED}" "${RESET}" >&2
+  printf "%b      [post-attach] Please check logs above.%b\n" "${RED}" "${RESET}" >&2
   exit 1
 fi
+
+printf "%b\n==> [post-attach] complete — Copilot extension installed.%b\n" "${BOLD}${GREEN}" "${RESET}"

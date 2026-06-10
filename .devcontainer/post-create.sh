@@ -11,12 +11,24 @@ EXPECTED_VSIX_SHA256=""
 
 VSIX_DIR="${HOME}/.cache/oai-compatible-copilot"
 
+# --- Output styling -------------------------------------------------------
+# Colors are emitted unconditionally (not gated on a tty) because the
+# devcontainer / Codespaces "creating container" log renders ANSI codes.
+GREEN="\033[0;32m"
+RED="\033[0;31m"
+BOLD="\033[1m"
+RESET="\033[0m"
+
+say() {
+  printf "%b\n==> [post-create] %s%b\n" "${BOLD}${GREEN}" "$1" "${RESET}"
+}
+
 log() {
-  echo "[post-create] $*"
+  printf "      [post-create] %s\n" "$*"
 }
 
 error() {
-  echo "[post-create] ERROR: $*" >&2
+  printf "%b      [post-create] ERROR: %s%b\n" "${RED}" "$*" "${RESET}" >&2
 }
 
 require_cmd() {
@@ -155,7 +167,7 @@ verify_sha256() {
 }
 
 main_download() {
-  log "Preparing prebuilt OAI-compatible Copilot VSIX..."
+  say "Preparing prebuilt OAI-compatible Copilot VSIX"
 
   require_cmd curl || return 1
   require_cmd grep || return 1
@@ -205,9 +217,10 @@ main_download() {
 }
 
 if ! main_download; then
-  echo "" >&2
-  echo "FATAL: Failed to prepare required OAI-compatible Copilot extension VSIX." >&2
-  echo "This sandbox is designed to demonstrate that extension." >&2
-  echo "Please check logs above." >&2
+  printf "%b\n      [post-create] FATAL: Failed to prepare required OAI-compatible Copilot extension VSIX.%b\n" "${RED}${BOLD}" "${RESET}" >&2
+  printf "%b      [post-create] This sandbox is designed to demonstrate that extension.%b\n" "${RED}" "${RESET}" >&2
+  printf "%b      [post-create] Please check logs above.%b\n" "${RED}" "${RESET}" >&2
   exit 1
 fi
+
+printf "%b\n==> [post-create] complete — Copilot extension VSIX is staged.%b\n" "${BOLD}${GREEN}" "${RESET}"

@@ -15,3 +15,6 @@ matplotlib-base = ">=3.10,<4"
 xarray = ">=2026.2,<2027"
 netcdf4 = ">=1.7,<2"
 requests = ">=2.33,<3"
+
+[tasks]
+verify = "bash scripts/verify_gateway.sh"

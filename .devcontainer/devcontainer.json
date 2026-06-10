@@ -1,13 +1,23 @@
 {
   "name": "LLMaven RSE Sandbox",
   "image": "ghcr.io/uw-ssec/llmaven-rse-sandbox-devcontainer@sha256:8ed8e1e6fe3e77515e728daea81897898513d9a7c602033f7c40125ad3371fb0",
+  // Node provides the `npx` that install-skills.sh uses to install the
+  // ai-research-workflows skills into Copilot. The pinned base image ships no
+  // Node, so add it as a create-time feature (applied before the lifecycle
+  // scripts run) rather than relying on the image.
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "ms-python.python",
-        "ms-python.vscode-pylance"
+        "ms-python.vscode-pylance",
+        "marp-team.marp-vscode"
       ],
       "settings": {
         "chat.plugins.enabled": false,
@@ -33,7 +43,12 @@
               "isUserSelectable": true
           }
       ],
+        // "readme" opens the README as a rendered preview during first-launch
+        // setup — the only startup surface Codespaces reliably renders. Its
+        // top callout carries the "setup in progress" instructions; the
+        // walkthrough takes over on the next window load.
         "workbench.startupEditor": "readme",
+        "markdown.marp.themes": ["./docs/slides/themes/sandbox.css"],
         "files.watcherExclude": {
           "**/.git/objects/**": true,
           "**/.git/subtree-cache/**": true,
@@ -69,8 +84,16 @@
     "COPILOT_PROVIDER_WIRE_API": "responses"
   },
   "onCreateCommand": "bash .devcontainer/on-create.sh",
-  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  // Keep the Codespaces "Setting up" screen until post-create finishes, so
+  // users land in a fully provisioned editor instead of watching setup output.
+  "waitFor": "postCreateCommand",
+  // `pixi install --locked` is repeated here as a prebuild safety net: the
+  // .pixi volume is not captured in prebuild snapshots and onCreateCommand
+  // does not re-run for Codespaces created from a prebuild, so without this
+  // the pixi env would be empty there. When on-create already installed it,
+  // this is a fast no-op.
+  "postCreateCommand": "pixi install --locked && bash .devcontainer/post-create.sh && bash .devcontainer/install-skills.sh",
   "postStartCommand": "bash .devcontainer/post-start.sh",
-  "postAttachCommand": "bash .devcontainer/install-vsix.sh",
+  "postAttachCommand": "bash .devcontainer/install-vsix.sh && bash .devcontainer/install-walkthrough.sh && bash .devcontainer/setup-complete.sh",
   "remoteUser": "vscode"
 }
