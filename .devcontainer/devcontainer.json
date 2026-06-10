@@ -11,6 +11,13 @@
     }
   },
   "customizations": {
+    "codespaces": {
+      // Shown while the devcontainer is still setting up, instead of the
+      // default README preview. The walkthrough takes over after setup.
+      "openFiles": [
+        "docs/codespace-setup.md"
+      ]
+    },
     "vscode": {
       "extensions": [
         "GitHub.copilot",
@@ -43,7 +50,9 @@
               "isUserSelectable": true
           }
       ],
-        "workbench.startupEditor": "welcomePage",
+        // "none" so the openFiles setup note (and later the auto-opened
+        // walkthrough) aren't competing with a welcome tab.
+        "workbench.startupEditor": "none",
         "markdown.marp.themes": ["./docs/slides/themes/sandbox.css"],
         "files.watcherExclude": {
           "**/.git/objects/**": true,
