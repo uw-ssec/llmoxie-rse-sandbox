@@ -5,7 +5,35 @@ const WALKTHROUGH_ID =
 // Rotate the suffix when an update should re-show the walkthrough once.
 const SHOWN_KEY = "llmoxieWalkthroughShown.v2";
 
+function openDeckCommand(relativePath) {
+  return async () => {
+    const folders = vscode.workspace.workspaceFolders;
+    if (!folders || folders.length === 0) {
+      void vscode.window.showErrorMessage(
+        `No workspace folder open — cannot locate ${relativePath}`
+      );
+      return;
+    }
+    const deck = vscode.Uri.joinPath(folders[0].uri, relativePath);
+    // The Marp extension renders marp:true markdown inside the built-in
+    // markdown preview, so showPreview opens the deck as slides directly.
+    await vscode.commands.executeCommand("markdown.showPreview", deck);
+  };
+}
+
 async function activate(context) {
+  // Walkthrough step 5 buttons — open each deck straight into slide preview.
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "llmoxie-sandbox-walkthrough.openPackagingDeck",
+      openDeckCommand("docs/slides/research-loop.md")
+    ),
+    vscode.commands.registerCommand(
+      "llmoxie-sandbox-walkthrough.openOceanDeck",
+      openDeckCommand("docs/slides/research-loop-ocean.md")
+    )
+  );
+
   // Open the walkthrough automatically the first time this Codespace loads
   // with the extension active; after that, it stays reachable from the
   // Welcome page (Help > Welcome) without reopening on every launch.
