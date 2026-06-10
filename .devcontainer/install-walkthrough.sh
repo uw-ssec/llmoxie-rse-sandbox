@@ -86,8 +86,11 @@ main() {
   log "using VS Code CLI: ${CODE_BIN}"
   PY="$(find_python)" || bail "no python3 available to build the .vsix"
 
-  if "${CODE_BIN}" --list-extensions 2>/dev/null | grep -qix "${EXTENSION_ID}"; then
-    log "already installed: ${EXTENSION_ID}"
+  # Version-aware idempotency: re-install when the in-repo extension is newer
+  # than what this Codespace already has.
+  EXT_VERSION="$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' "${EXT_SRC}/package.json" | head -1)"
+  if "${CODE_BIN}" --list-extensions --show-versions 2>/dev/null | grep -qix "${EXTENSION_ID}@${EXT_VERSION}"; then
+    log "already installed: ${EXTENSION_ID}@${EXT_VERSION}"
     exit 0
   fi
 
@@ -101,7 +104,7 @@ main() {
   mkdir -p "${STAGE}/extension"
   cp "${EXT_SRC}/extension.vsixmanifest" "${STAGE}/extension.vsixmanifest"
   cp "${EXT_SRC}/[Content_Types].xml" "${STAGE}/[Content_Types].xml"
-  cp "${EXT_SRC}/package.json" "${EXT_SRC}/README.md" "${STAGE}/extension/"
+  cp "${EXT_SRC}/package.json" "${EXT_SRC}/extension.js" "${EXT_SRC}/README.md" "${STAGE}/extension/"
   mkdir -p "${STAGE}/extension/media"
   cp "${EXT_SRC}/media/"*.md "${EXT_SRC}/media/"*.png "${STAGE}/extension/media/"
 
@@ -135,7 +138,7 @@ PYEOF
     warn "installed but not yet listed — it should appear after the window reloads."
   fi
 
-  say "walkthrough ready — Help > Get Started > LLMoxie RSE Sandbox"
+  say "walkthrough ready — it opens on the next window load (or Help > Welcome > LLMoxie RSE Sandbox)"
 }
 
 main

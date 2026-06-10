@@ -41,10 +41,10 @@ onboarding flow or the repository page. First launch takes a few minutes while
 the devcontainer prepares the Pixi environment, the LLMoxie Model Provider
 extension, and the Copilot CLI with the RSE plugins.
 
-Once VS Code connects, the **Get Started panel** walks you through the rest —
-selecting a UW SSEC model, verifying the gateway, sending your first prompt,
-and opening the guided research-loop decks. Reopen it anytime via
-**Help → Get Started → LLMoxie RSE Sandbox**.
+Once VS Code connects, the **LLMoxie RSE Sandbox walkthrough** opens and walks
+you through the rest — selecting a UW SSEC model, verifying the gateway,
+sending your first prompt, and opening the guided research-loop decks. Reopen
+it anytime via **Help → Welcome → LLMoxie RSE Sandbox**.
 
 You can also verify the gateway from any terminal:
 
@@ -52,7 +52,7 @@ You can also verify the gateway from any terminal:
 pixi run verify
 ```
 
-> **Prefer a guided, slide-by-slide demo?** Complete the Get Started panel's
+> **Prefer a guided, slide-by-slide demo?** Complete the walkthrough's
 > model-selection step first, then open `docs/slides/research-loop.md` and choose
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
 > research loop in Copilot Chat — packaging the `samples/` climate scripts — with each

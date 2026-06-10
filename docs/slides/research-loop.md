@@ -47,7 +47,7 @@ Each command is a Copilot Chat **prompt file** that hands off to a reusable **sk
 
 ## Before you start
 
-- A **UW SSEC model** is selected in Copilot Chat (see the **Get Started** panel — Help → Get Started).
+- A **UW SSEC model** is selected in Copilot Chat (see the sandbox walkthrough — Help → Welcome).
 - This deck is open in **Marp preview** — `research-loop.md` → "Open Preview to the Side".
 - The **Copilot Chat** panel is open beside the preview (`Ctrl+Shift+I`).
 
