@@ -1,12 +1,12 @@
 ## The organizations behind this sandbox
 
 <p>
-  <img src="ssec-escience-uw-banner.svg" alt="UW Scientific Software Engineering Center (SSEC), eScience Institute, and University of Washington" height="40">
+  <img src="ssec-escience-uw-banner.svg" alt="UW Scientific Software Engineering Center (SSEC), eScience Institute, and University of Washington" height="45">
 </p>
 
 <p>
-  <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot" height="48">
-  <img src="schmidt-sciences-banner.svg" alt="Schmidt Sciences" height="48">
+  <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot" height="45">
+  <img src="schmidt-sciences-banner.svg" alt="Schmidt Sciences" height="45">
 </p>
 
 LLMoxie is developed by the
