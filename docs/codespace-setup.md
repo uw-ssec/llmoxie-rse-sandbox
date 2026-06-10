@@ -1,5 +1,8 @@
 # ⏳ Your sandbox is getting ready
 
+> 💡 **Tip:** working in the browser? Copilot Chat works best in
+> **Google Chrome** — other browsers may hit hiccups.
+
 First launch takes a few minutes while the devcontainer prepares everything:
 
 1. the **pixi** Python environment

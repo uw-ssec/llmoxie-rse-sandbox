@@ -4,6 +4,33 @@ const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
 const SHOWN_KEY = "llmoxieWalkthroughShown.v2";
+const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
+
+async function maybeShowBrowserTip(context) {
+  // Copilot Chat works best in Chromium browsers. The user agent is only
+  // visible when this extension runs in the web worker host (VS Code Web);
+  // when it runs remotely, navigator is Node's stub and matches nothing.
+  if (vscode.env.uiKind !== vscode.UIKind.Web) {
+    return;
+  }
+  if (typeof navigator === "undefined" || !navigator.userAgent) {
+    return;
+  }
+  if (context.globalState.get(BROWSER_TIP_KEY)) {
+    return;
+  }
+  const ua = navigator.userAgent;
+  const isFirefox = ua.includes("Firefox/");
+  const isNonChromiumSafari =
+    ua.includes("Safari/") && !ua.includes("Chrome/") && !ua.includes("Chromium/");
+  if (!isFirefox && !isNonChromiumSafari) {
+    return;
+  }
+  await context.globalState.update(BROWSER_TIP_KEY, true);
+  void vscode.window.showWarningMessage(
+    "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser."
+  );
+}
 
 function openDeckCommand(relativePath) {
   return async () => {
@@ -33,6 +60,8 @@ async function activate(context) {
       openDeckCommand("docs/slides/research-loop-ocean.md")
     )
   );
+
+  await maybeShowBrowserTip(context);
 
   // Open the walkthrough automatically the first time this Codespace loads
   // with the extension active; after that, it stays reachable from the

@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
@@ -12,6 +12,11 @@
     "Other"
   ],
   "main": "./extension.js",
+  "browser": "./extension.js",
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
   "activationEvents": [
     "onStartupFinished"
   ],
