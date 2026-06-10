@@ -50,6 +50,8 @@ Sandbox walkthrough
 
 The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities, reachable from two surfaces: slash commands in Copilot Chat (backed by the prompt files in `.github/prompts/`, which hand off to the plugin skills) and the Copilot CLI (via the registered plugin marketplace).
 
+Although the application layer is built on Claude Code plugins, we have enabled it on this sandbox as the GitHub Copilot CLI. You can therefore use GitHub's Copilot Coding Agent with OpenAI's GPT models, served through Microsoft Foundry and supported by our NAIRR allocation.
+
 ## Sandbox walkthrough
 
 Open a GitHub Codespace for this repository, starting from the authorized
@@ -144,3 +146,9 @@ This sandbox installs a pinned LLMoxie Model Provider VSIX during devcontainer s
 The Get Started walkthrough extension is first-party: it is packaged during setup from the source committed at `.devcontainer/sandbox-walkthrough/` — nothing is downloaded for it.
 
 The provider extension uses a gateway credential provisioned through the authorized onboarding flow. Use this sandbox only from trusted Codespace sessions created through that flow.
+
+## Acknowledgements
+
+LLMoxie is developed by the [University of Washington Scientific Software Engineering Center (UW SSEC)](https://escience.washington.edu/software-engineering/ssec/) at the [eScience Institute](https://escience.washington.edu/).
+
+This work is supported by the U.S. National Science Foundation (NSF) through [NAIRR Pilot award #240292](https://nairrpilot.org/projects/awarded?_requestNumber=NAIRR240292), and by [Schmidt Sciences](https://www.schmidtsciences.org/) through the [Virtual Institutes for Scientific Software (VISS)](https://www.schmidtsciences.org/viss/) program.
