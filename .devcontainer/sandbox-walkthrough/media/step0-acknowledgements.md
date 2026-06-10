@@ -1,7 +1,7 @@
 ## The organizations behind this sandbox
 
 <p>
-  <img src="ssec-escience-uw-banner.svg" alt="UW Scientific Software Engineering Center (SSEC), eScience Institute, and University of Washington" height="48">
+  <img src="ssec-escience-uw-banner.svg" alt="UW Scientific Software Engineering Center (SSEC), eScience Institute, and University of Washington" height="40">
 </p>
 
 <p>
