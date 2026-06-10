@@ -26,11 +26,13 @@ This specific sandbox provides a preconfigured GitHub Codespaces workspace for e
 - A pinned LLMoxie Model Provider extension for routing Copilot-compatible requests through the LLMoxie / LiteLLM gateway
 - Copilot CLI marketplace registration for UW SSEC RSE Agent Plugins
 - Copilot Chat prompt files (`.github/prompts/`) that expose the RSE workflow slash commands — `/research`, `/plan`, `/implement`, `/validate`, `/experiment`, `/reproduce`, `/iterate-plan`, `/harden`, `/handoff` — directly in the Chat panel
-- Guided documentation for first-time demo users
+- A first-run **Get Started walkthrough** (a first-party VS Code extension built from `.devcontainer/sandbox-walkthrough/`) that opens automatically and covers model selection, gateway verification, a first prompt, and the guided decks
+- A gateway health check — `pixi run verify` — also wired to the walkthrough's "Verify the gateway" button
+- Two guided Marp slide decks (`docs/slides/`) that drive the research loop in Copilot Chat, slide by slide
 
 ## How the pieces fit together
 
-The sandbox uses three layers:
+The sandbox uses four layers:
 
 ```text
 GitHub Codespaces
@@ -41,6 +43,9 @@ LLMoxie Model Provider
 
 RSE Agent Plugins
   → provide RSE-specific skills, agents, and slash commands
+
+Sandbox walkthrough
+  → first-run onboarding: select a model, verify the gateway, open the decks
 ```
 
 The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities, reachable from two surfaces: slash commands in Copilot Chat (backed by the prompt files in `.github/prompts/`, which hand off to the plugin skills) and the Copilot CLI (via the registered plugin marketplace).
@@ -48,16 +53,15 @@ The Copilot provider extension and the RSE Agent Plugins are separate. The provi
 ## Sandbox walkthrough
 
 Open a GitHub Codespace for this repository, starting from the authorized
-onboarding flow or the repository page. First launch takes a few minutes while
-the devcontainer prepares the Pixi environment, the LLMoxie Model Provider
-extension, and the Copilot CLI with the RSE plugins.
+onboarding flow or the repository page. Once setup finishes (watch for the
+green **SANDBOX READY** banner in the terminal), the **LLMoxie RSE Sandbox
+walkthrough** opens automatically and walks you through everything — selecting
+a UW SSEC model, verifying the gateway, sending your first prompt, and opening
+the guided research-loop decks. Reopen it anytime via
+**Help → Welcome → LLMoxie RSE Sandbox**.
 
-Once VS Code connects, the **LLMoxie RSE Sandbox walkthrough** opens and walks
-you through the rest — selecting a UW SSEC model, verifying the gateway,
-sending your first prompt, and opening the guided research-loop decks. Reopen
-it anytime via **Help → Welcome → LLMoxie RSE Sandbox**.
-
-You can also verify the gateway from any terminal:
+The walkthrough's "Verify the gateway" button runs the same check that is
+available from any terminal:
 
 ```bash
 pixi run verify
@@ -136,5 +140,7 @@ AI interactions in this environment may be routed through the LLMoxie / LiteLLM 
 ## Trust assumptions
 
 This sandbox installs a pinned LLMoxie Model Provider VSIX during devcontainer setup. The VSIX is verified against a SHA256 value committed in this repository before installation.
+
+The Get Started walkthrough extension is first-party: it is packaged during setup from the source committed at `.devcontainer/sandbox-walkthrough/` — nothing is downloaded for it.
 
 The provider extension uses a gateway credential provisioned through the authorized onboarding flow. Use this sandbox only from trusted Codespace sessions created through that flow.
