@@ -1,0 +1,71 @@
+{
+  "name": "llmoxie-sandbox-walkthrough",
+  "displayName": "LLMoxie RSE Sandbox Walkthrough",
+  "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
+  "version": "0.1.0",
+  "publisher": "uw-ssec",
+  "license": "BSD-3-Clause",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "walkthroughs": [
+      {
+        "id": "llmoxieSandboxGetStarted",
+        "title": "LLMoxie RSE Sandbox",
+        "description": "Select a model, verify the gateway, and start the research loop.",
+        "featuredFor": [
+          "**/README.md"
+        ],
+        "steps": [
+          {
+            "id": "environmentReady",
+            "title": "Environment ready",
+            "description": "The devcontainer already prepared everything: the pixi Python environment, the LLMoxie Model Provider extension, and the Copilot CLI wired to the gateway.\nCheck this step off and move on.",
+            "media": {
+              "markdown": "media/step1-environment.md"
+            }
+          },
+          {
+            "id": "selectModel",
+            "title": "Select a UW SSEC model",
+            "description": "Open Copilot Chat, click the model name next to the input box, expand \"Other Models\", and pick a UW SSEC entry.\n[Open Copilot Chat](command:workbench.action.chat.open)",
+            "media": {
+              "markdown": "media/step2-select-model.md"
+            }
+          },
+          {
+            "id": "verifyGateway",
+            "title": "Verify the gateway",
+            "description": "Run the verification task — it checks the gateway connection and the UW SSEC models, with a clear pass/fail in the terminal.\n[Run verification](command:workbench.action.tasks.runTask?%22verify-gateway%22)",
+            "media": {
+              "markdown": "media/step3-verify.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.tasks.runTask"
+            ]
+          },
+          {
+            "id": "firstPrompt",
+            "title": "Try your first prompt",
+            "description": "Send one prompt to confirm the whole stack end-to-end.\n[Open Copilot Chat](command:workbench.action.chat.open)",
+            "media": {
+              "markdown": "media/step4-first-prompt.md"
+            }
+          },
+          {
+            "id": "startResearchLoop",
+            "title": "Start the research loop",
+            "description": "Pick a guided deck. Each opens via Quick Open — press Enter to open the file, then use \"Open Preview to the Side\".\n[Open packaging deck](command:workbench.action.quickOpen?%22research-loop.md%22)\n[Open ocean deck](command:workbench.action.quickOpen?%22research-loop-ocean.md%22)",
+            "media": {
+              "markdown": "media/step5-research-loop.md"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
