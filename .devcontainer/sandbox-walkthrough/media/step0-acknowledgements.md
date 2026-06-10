@@ -1,8 +1,11 @@
-<p align="center">
-  <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot — National Artificial Intelligence Research Resource Pilot" width="420">
-</p>
-
 ## The organizations behind this sandbox
+
+<p align="center">
+  <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot — National Artificial Intelligence Research Resource Pilot" height="40">
+  <img src="ssec-escience-banner.svg" alt="UW Scientific Software Engineering Center (SSEC) and eScience Institute" height="40">
+  <img src="uw-banner.svg" alt="University of Washington" height="40">
+  <img src="schmidt-sciences-banner.svg" alt="Schmidt Sciences" height="40">
+</p>
 
 LLMoxie is developed by the
 [University of Washington Scientific Software Engineering Center (UW SSEC)](https://escience.washington.edu/software-engineering/ssec/)
@@ -15,12 +18,3 @@ and by [Schmidt Sciences](https://www.schmidtsciences.org/) through the
 
 Thank you to these organizations for making this sandbox possible — check the
 step off and continue.
-
-<p align="center">
-  <img src="ssec-escience-banner.svg" alt="UW Scientific Software Engineering Center (SSEC) and eScience Institute" width="420">
-</p>
-
-<p align="center">
-  <img src="uw-banner.svg" alt="University of Washington" width="205">
-  <img src="schmidt-sciences-banner.svg" alt="Schmidt Sciences" width="205">
-</p>
