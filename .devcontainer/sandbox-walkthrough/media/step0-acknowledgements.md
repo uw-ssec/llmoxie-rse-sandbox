@@ -1,6 +1,6 @@
 ## The organizations behind this sandbox
 
-<p align="center">
+<p>
   <img src="nairr-pilot-banner.svg" alt="NAIRR Pilot" height="40">
   <img src="ssec-escience-banner.svg" alt="UW Scientific Software Engineering Center (SSEC) and eScience Institute" height="40">
   <img src="uw-banner.svg" alt="University of Washington" height="40">
