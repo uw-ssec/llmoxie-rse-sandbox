@@ -27,7 +27,7 @@ The signal is `sst = MEAN + AMP·sin(2π·doy/365.25 + PHASE) + WARMING·years +
 
 A correct trend analysis should recover a warming slope of **≈ 0.03 °C/yr**
 (about 0.3 °C/decade) after removing the seasonal cycle. Use this to check what
-`/validate` reports in the demo.
+`/validating-implementations` reports in the demo.
 
 ## Regenerating
 

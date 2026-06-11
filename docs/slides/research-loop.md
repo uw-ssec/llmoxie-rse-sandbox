@@ -20,7 +20,7 @@ description: "LLMoxie NAIRR Sandbox — ai-research-workflows guided demo"
 
 AI assistants write code well, but used ad hoc they skip the rigor research needs: they edit before understanding, lose the *why* when a chat ends, and rarely prove a result holds.
 
-A **workflow** is a named, reusable prompt that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
+A **workflow** is a named, reusable skill that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
 
 - **Research software engineers** get planning, testing, and review rigor.
 - **Researchers** get a reproducible record of *what was decided and why* — one that survives the session.

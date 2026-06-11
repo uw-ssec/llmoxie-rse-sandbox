@@ -77,7 +77,7 @@ pixi run verify
 >
 > **Prefer a research story?** `docs/slides/research-loop-ocean.md` tells the same loop as a
 > hypothesis-driven oceanographic arc — testing a warming trend in synthetic buoy data — and
-> features the `/experiment` and `/reproduce` phases the packaging deck skips.
+> features the `/running-experiments` and `/ensuring-reproducibility` phases the packaging deck skips.
 
 ### Working in Copilot Chat
 
