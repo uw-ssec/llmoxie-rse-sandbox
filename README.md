@@ -25,7 +25,7 @@ This specific sandbox provides a preconfigured GitHub Codespaces workspace for e
 - A GitHub Codespaces sandbox with scientific Python tooling managed by Pixi
 - A pinned LLMoxie Model Provider extension for routing Copilot-compatible requests through the LLMoxie / LiteLLM gateway
 - Copilot CLI marketplace registration for UW SSEC RSE Agent Plugins
-- Native Copilot Agent Skills that expose the RSE workflow slash commands — `/researching`, `/planning-implementations`, `/implementing-plans`, `/validating-implementations`, `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`, `/hardening-research-code`, `/creating-handoffs` — directly in the Chat panel, loaded straight from the `vendor/rse-plugins` submodule
+- Native Copilot Agent Skills that expose the RSE workflow slash commands — `/researching`, `/planning-implementations`, `/implementing-plans`, `/validating-implementations`, `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`, `/hardening-research-code`, `/creating-handoffs` — directly in the Chat panel, installed into Copilot during devcontainer setup from the `vendor/rse-plugins` submodule
 - A first-run **Get Started walkthrough** (a first-party VS Code extension built from `.devcontainer/sandbox-walkthrough/`) that opens automatically and covers model selection, gateway verification, a first prompt, and the guided decks
 - A gateway health check — `pixi run verify` — also wired to the walkthrough's "Verify the gateway" button
 - Two guided Marp slide decks (`docs/slides/`) that drive the research loop in Copilot Chat, slide by slide
@@ -48,7 +48,7 @@ Sandbox walkthrough
   → first-run onboarding: select a model, verify the gateway, open the decks
 ```
 
-The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities, reachable from two surfaces: skill slash commands in Copilot Chat (Agent Skills discovered directly from the `vendor/rse-plugins` submodule via the `chat.agentSkillsLocations` setting) and the Copilot CLI (via the registered plugin marketplace).
+The Copilot provider extension and the RSE Agent Plugins are separate. The provider handles model routing. The plugins provide the research software engineering capabilities, reachable from two surfaces: skill slash commands in Copilot Chat (Agent Skills installed during devcontainer setup from the `vendor/rse-plugins` submodule) and the Copilot CLI (via the registered plugin marketplace).
 
 Although the application layer is built on Claude Code plugins, we have enabled it on this sandbox as the GitHub Copilot CLI. You can therefore use GitHub's Copilot Coding Agent with OpenAI's GPT models, served through Microsoft Foundry and supported by our NAIRR allocation.
 
@@ -88,7 +88,7 @@ The RSE workflow slash commands work directly in Chat: typing `/researching`,
 `/planning-implementations`, `/implementing-plans`, `/validating-implementations`,
 `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`,
 `/hardening-research-code`, or `/creating-handoffs` invokes the matching RSE
-Agent Plugin skill, loaded directly from the `vendor/rse-plugins` submodule.
+Agent Plugin skill, installed during devcontainer setup from the `vendor/rse-plugins` submodule.
 This is the surface the guided decks in `docs/slides/` use.
 
 ### Using the Copilot CLI for RSE plugin workflows
@@ -96,7 +96,7 @@ This is the surface the guided decks in `docs/slides/` use.
 The standalone Copilot CLI is installed in the devcontainer, pre-wired to the
 LLMoxie gateway, and the `uw-ssec/rse-plugins` marketplace is registered. The
 CLI loads the RSE Agent Plugins (slash commands, agents, skills) directly from
-that marketplace — the same skills Copilot Chat loads from the submodule; the
+that marketplace — the same skills Copilot Chat uses; the
 CLI plugin additionally provides the short command aliases used below. Move
 to the CLI for non-interactive use in a script or CI context, or to pipe
 Copilot output into other shell tools.
