@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
