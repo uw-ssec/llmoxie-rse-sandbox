@@ -5,6 +5,10 @@ the files under `samples/` — nothing else.
 
 ## Scope: only touch `samples/`
 
+**You may write ONLY under `samples/` and `docs/rse/specs/`.**
+
+**DO NOT READ any files in `docs/slides` AND `docs/expected-specs` or their subdirectories**
+
 **Focus exclusively on the files under `samples/`.** Treat everything else in this
 repository as fixed infrastructure that is out of scope:
 

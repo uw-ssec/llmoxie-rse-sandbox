@@ -31,18 +31,16 @@ A **workflow** is a named, reusable prompt that runs one phase and writes a dura
 
 ## The research arc at a glance
 
-| Phase | Slash command | Writes |
-|---|---|---|
-| 1. Research the methods | `/research` | `docs/rse/specs/research-<slug>.md` |
-| 2. Plan the analysis | `/plan` | `docs/rse/specs/plan-<slug>.md` |
-| 3. Test the methods | `/experiment` | `docs/rse/specs/experiment-<slug>.md` |
-| 4. Implement | `/implement` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
-| 5. Get results | `/validate` | `docs/rse/specs/validation-<slug>.md` |
-| 6. Make it reproducible | `/reproduce` | a `## Reproducibility` section in `experiment-`/`implement-<slug>.md` |
+1. Research the methods
+2. Plan the analysis
+3. Experiment
+4. Implement
+5. Validate
+6. Ensure Reproducibility
 
-`/harden` (regression + correctness tests) is the natural next step — we name it at the end.
+`/hardening-research-code` (regression + correctness tests) is the natural next step — we name it at the end.
 
-Each command is a Copilot Chat **prompt file** that hands off to a reusable **skill** — installed for you by the devcontainer.
+Each command is a reusable **skill** — installed for you by the devcontainer.
 
 ---
 
@@ -53,19 +51,6 @@ Each command is a Copilot Chat **prompt file** that hands off to a reusable **sk
 - The **Copilot Chat** panel is open beside the preview (`Ctrl+Shift+I`).
 
 You'll read a slide, type its prompt in Chat, then open the artifact it writes.
-
----
-
-## Commit first — git is your safety net
-
-Before the agent touches anything, start from a clean tree:
-
-```bash
-git status        # should be clean
-git add -A && git commit -m "checkpoint before research arc"   # if not
-```
-
-Now `git diff` shows **exactly** what the agent changed, and `git restore .` is a one-command undo.
 
 > The artifacts in `docs/rse/specs/` are the *reasoning* trail. git is the *code* trail. Together they keep you in control.
 
@@ -87,45 +72,53 @@ Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
 
 ---
 
-## Phase 1 — `/research`
+## Phase 1 — Research
 
 In Copilot Chat, type:
 
 ```text
-/research I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
+/researching I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
 ```
 
-**You'll see:** a survey of approaches — decomposition methods (harmonic regression, STL, moving-average deseasonalization) plus a robust slope estimator (Theil–Sen) to apply to the deseasonalized residuals — with trade-offs.
+When asked to include prior art, say yes or select both for including codebase and prior art. The research depth should be *Moderate*.
 
-**Then open:** `docs/rse/specs/research-*.md` — the durable methods note every later phase builds on.
+**Once finished, open:** `docs/rse/specs/research-*.md` — the durable methods note every later phase builds on.
+
+**You'll see:** a survey of prior art approaches (Classical seasonal decomposition, STL, GAM / spline trend models, etc) with trade-offs.
 
 > This is the "research the methods" step — prior art before code.
 
 ---
 
-## Phase 2 — `/plan`
+## Phase 2 — Plan
 
 ```text
-/plan an analysis that estimates the warming trend in samples/ocean/buoy_sst.csv after removing the seasonal cycle, with success criteria
+/planning-implementations for an analysis that estimates the warming trend in samples/ocean/buoy_sst.csv after removing the seasonal cycle, with success criteria
 ```
+
+When asked, just go with the simplest Harmonic regression approach, and use the existing sample test file only.
+
+**Once finished, open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validate` checks later.
 
 **You'll see:** a phased plan with components, dependencies, and **success criteria** (Automated + Manual) — e.g. *recovers the trend within a confidence interval*.
 
-**Then open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validate` checks later.
-
-> Tighten the scope now — a tight plan means a reviewable result.
+> Tighten the scope now if you'd like — a tight plan means a reviewable result.
 
 ---
 
-## Phase 3 — `/experiment` (the centerpiece)
+## Phase 3 — Experiment (the centerpiece)
+
+Before running experiments, let's create a new session
 
 ```text
-/experiment compare harmonic regression vs STL decomposition for recovering the warming trend in samples/ocean/buoy_sst.csv
+/running-experiments compare harmonic regression vs STL decomposition for recovering the warming trend in samples/ocean/buoy_sst.csv
 ```
 
-**You'll see:** the agent **builds and runs each approach for real**, measures how well each recovers the trend, and recommends one with evidence.
+At this time, the agent may fail finding `statsmodels` package as that's not installed in the environment. However, it's able to reason to give harmonic regression and recommendation.
 
-**Then open:** `docs/rse/specs/experiment-*.md` — the head-to-head comparison.
+**Once finished, open:** `docs/rse/specs/experiment-*.md` — the head-to-head comparison.
+
+**You'll see:** the agent **builds and runs each approach for real**, measures how well each recovers the trend, and recommends one with evidence.
 
 > This is where a research claim is earned, not asserted. It's the slow phase — while it runs, read the next two slides.
 
@@ -143,62 +136,48 @@ Every approach in the comparison must be actually built and run. A comparison wi
 
 ---
 
-## Review the diff and the evidence, not the chat
+## Phase 4 — Implement
 
-The agent's "Done!" is a **claim**. `git diff` and the artifact are the **evidence**.
-
-```bash
-git diff            # what actually changed
-git restore .       # undo if it went wrong
-```
-
-- Read the experiment and validation artifacts like a colleague's pull request.
-- Commit per phase, so a bad later phase rolls back cleanly.
-- Small per-phase scope → small diff → you'll actually read it.
-
----
-
-## Phase 4 — `/implement`
+Before we start implementing, let's create a new session
 
 ```text
-/implement docs/rse/specs/plan-<slug>.md
+/implementing-plans go ahead with docs/rse/specs/plan-<slug>.md
 ```
 
 (Use the real filename from Phase 2.)
 
 **You'll see:** the agent implements the recommended method **phase by phase**, running checks and pausing for your verification.
 
-**Commit after each green phase:**
-
-```bash
-git add -A && git commit -m "implement: phase N"
-```
-
 ---
 
-## Phase 5 — `/validate`
+## Phase 5 — Validate
+
+Before validating, create a new session
 
 ```text
-/validate docs/rse/specs/plan-<slug>.md
+/validating-implementations docs/rse/specs/plan-<slug>.md
 ```
 
 **You'll see:** each success criterion checked, with pass/fail and evidence. The recovered warming slope should land near the documented truth.
 
 **Then open:** `docs/rse/specs/validation-*.md`, then check it against `samples/ocean/README.md` (≈ 0.03 °C/yr).
 
-> `/validate` is a quality gate, not a vibe check. The known answer is what makes it honest.
+> Validate step is a quality gate, not a vibe check. The known answer is what makes it honest.
 
 ---
 
-## Phase 6 — `/reproduce`
+## Phase 6 — Reproduce
+
+Create a new session for ensuring reproducibility
+
 
 ```text
-/reproduce the warming-trend estimate from the samples/ocean experiment
+/ensuring-reproducibility of the warming-trend estimate from the samples/ocean experiment
 ```
 
 **You'll see:** a provenance record — interpreter + `pixi.lock`, code commit, the data's seed and content hash, config, exact commands — captured **and then re-run in a clean environment** to confirm the result holds.
 
-**Where it lands:** the skill **appends a `## Reproducibility` section to the artifact that already holds the result** — `experiment-<slug>.md` (or `implement-<slug>.md`) — not a separate file. It only creates `reproducibility-<slug>.md` when there's no existing artifact to append to.
+**Where it lands:** the skill **appends a `## Reproducibility` section to the artifact that already holds the result** — not a separate file. It only creates `reproducibility-<slug>.md` when there's no existing artifact to append to.
 
 > A record isn't reproducible until it's been reproduced. Capturing env, seed, and commands is necessary; re-running them in a clean room is what turns the claim into a finding.
 
@@ -211,7 +190,7 @@ Six phases later, `docs/rse/specs/` holds a **cross-linked research record**:
 ```text
 research-<slug>.md     ← the methods
 plan-<slug>.md         → cites the research
-experiment-<slug>.md   → tests the methods (+ ## Reproducibility: env, seed, data, commands)
+experiment-<slug>.md   → tests the methods 
 implement-<slug>.md    → cites the plan
 validation-<slug>.md   → cites the plan's criteria
 ```
@@ -225,8 +204,8 @@ Committed alongside the code, this survives the session and transfers to the nex
 ## Now test your own hypothesis
 
 - Swap the buoy scenario for **your** data and question — the arc is the same.
-- Use **`/handoff`** to carry full context into a fresh chat when a session gets long.
-- When the result must be trustworthy, run **`/harden`**: regression and correctness tests against a known reference. Here, `test_generate_buoy_sst.py` already pins the *data*; `/harden` adds the same protection to your *analysis*.
+- Use **`/creating-handoffs`** to carry full context into a fresh chat when a session gets long.
+- When the result must be trustworthy, run **`/hardening-research-code`**: regression and correctness tests against a known reference. Here, `test_generate_buoy_sst.py` already pins the *data*; `/hardening-research-code` adds the same protection to your *analysis*.
 - Put your conventions, data shapes, and "don't touch X" in **`AGENTS.md`** (or `.github/copilot-instructions.md`) — that's where your research context lives.
 
 > Same loop, your science. From hypothesis to a result you can defend.
