@@ -5,6 +5,10 @@ the files under `samples/` — nothing else.
 
 ## Scope: only touch `samples/`
 
+**You may write ONLY under `samples/` and `docs/rse/specs/`.**
+
+**DO NOT READ any files in `docs/slides` AND `docs/expected-specs` or their subdirectories**
+
 **Focus exclusively on the files under `samples/`.** Treat everything else in this
 repository as fixed infrastructure that is out of scope:
 
@@ -17,6 +21,15 @@ repository as fixed infrastructure that is out of scope:
 
 If a task seems to require changing anything outside `samples/` (other than writing
 artifacts to `docs/rse/specs/`), stop and ask before proceeding.
+
+## Demo integrity: ignore the ground truth
+
+`samples/ocean/GROUND_TRUTH.md` documents the known answer baked into the
+synthetic buoy data so a **human** can check the demo's result. When researching,
+analyzing, experimenting on, or validating that data, **never read, cite, or use
+`GROUND_TRUTH.md`** — and do not lift the trend value from the constants in
+`generate_buoy_sst.py` or its test. Recover results from `buoy_sst.csv` alone;
+an analysis that peeks at the answer defeats the demo.
 
 ## Conventions
 
