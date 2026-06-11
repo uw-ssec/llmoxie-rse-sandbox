@@ -12,22 +12,13 @@ against a **known answer**.
 | `date` | Calendar date (`YYYY-MM-DD`), daily from 2014-01-01 |
 | `sst_c` | Sea-surface temperature in °C |
 
-## Ground truth (the answer the loop should recover)
+## Ground truth
 
-The signal is `sst = MEAN + AMP·sin(2π·doy/365.25 + PHASE) + WARMING·years + noise`:
-
-| Parameter | Value | Role |
-|---|---|---|
-| `MEAN` | 14.0 °C | Annual-mean SST |
-| `AMP` | 5.0 °C | Seasonal amplitude |
-| `PHASE` | -1.5 rad | Seasonal phase (midsummer peak, ~day 178) |
-| `WARMING` | **0.03 °C/yr** | The trend a correct analysis must recover |
-| `NOISE_SD` | 0.5 °C | Daily observational noise |
-| `SEED` | 20260608 | RNG seed (data provenance) |
-
-A correct trend analysis should recover a warming slope of **≈ 0.03 °C/yr**
-(about 0.3 °C/decade) after removing the seasonal cycle. Use this to check what
-`/validate` reports in the demo.
+The generator bakes a known answer into this data so a human can check the
+demo's result. It is documented separately in
+[`GROUND_TRUTH.md`](GROUND_TRUTH.md) — **for human reviewers only**. AI agents
+analyzing this data must not read that file (see the repository `AGENTS.md`);
+the point of the demo is to recover the answer from `buoy_sst.csv` alone.
 
 ## Regenerating
 
