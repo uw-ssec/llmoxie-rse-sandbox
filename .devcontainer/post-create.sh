@@ -16,6 +16,7 @@ VSIX_DIR="${HOME}/.cache/oai-compatible-copilot"
 # devcontainer / Codespaces "creating container" log renders ANSI codes.
 GREEN="\033[0;32m"
 RED="\033[0;31m"
+YELLOW="\033[0;33m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
@@ -25,6 +26,10 @@ say() {
 
 log() {
   printf "      [post-create] %s\n" "$*"
+}
+
+warn() {
+  printf "%b  !   [post-create] %s%b\n" "${YELLOW}" "$*" "${RESET}"
 }
 
 error() {
@@ -215,6 +220,34 @@ main_download() {
 
   log "VSIX ready: ${VSIX_PATH}"
 }
+
+ensure_rse_plugins_submodule() {
+  local repo_root
+  repo_root="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+  # post-create.sh also runs at image-build time (see Dockerfile), where
+  # there is no repo checkout — skip the guard there.
+  if ! git -C "${repo_root}" rev-parse --git-dir >/dev/null 2>&1; then
+    log "Not running inside the repo checkout; skipping submodule check."
+    return 0
+  fi
+
+  say "Ensuring vendor/rse-plugins submodule is checked out"
+  if [ -f "${repo_root}/vendor/rse-plugins/plugins/ai-research-workflows/.claude-plugin/plugin.json" ]; then
+    log "Submodule already present."
+    return 0
+  fi
+
+  # Best-effort: a failure here must not abort container creation, but
+  # Copilot Chat's RSE skill slash commands need this checkout to exist.
+  if git -C "${repo_root}" submodule update --init --depth 1 vendor/rse-plugins; then
+    log "Submodule initialized."
+  else
+    warn "Could not initialize vendor/rse-plugins — Copilot Chat skills will be unavailable until it is checked out (continuing)."
+  fi
+}
+
+ensure_rse_plugins_submodule
 
 if ! main_download; then
   printf "%b\n      [post-create] FATAL: Failed to prepare required OAI-compatible Copilot extension VSIX.%b\n" "${RED}${BOLD}" "${RESET}" >&2
