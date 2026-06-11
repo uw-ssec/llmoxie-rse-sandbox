@@ -13,7 +13,7 @@ the files under `samples/` — nothing else.
 repository as fixed infrastructure that is out of scope:
 
 - `.devcontainer/` — container setup. Do not modify.
-- `.github/` — Copilot prompt files and config. Do not modify.
+- `.github/` — GitHub workflows and config. Do not modify.
 - `vendor/` — the `rse-plugins` submodule. Read-only.
 - `docs/` — documentation and the slide deck. Do **not** edit, with one exception:
   generated artifacts **may** be written to `docs/rse/specs/`.
