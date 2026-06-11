@@ -20,7 +20,7 @@ description: "LLMoxie NAIRR Sandbox — ai-research-workflows oceanographic rese
 
 A result without a record of how you got it is a **claim**. Run ad hoc, an AI assistant will happily produce a number — and lose the *why*, the methods it rejected, and whether the result even holds.
 
-A **workflow** is a named, reusable prompt that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
+A **workflow** is a named, reusable skill that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
 
 - **Researchers** get a reproducible decision record: hypothesis, methods compared, result, provenance.
 - **Research software engineers** get experiment and validation rigor baked into the loop.
@@ -38,9 +38,8 @@ A **workflow** is a named, reusable prompt that runs one phase and writes a dura
 5. Validate
 6. Ensure Reproducibility
 
-`/hardening-research-code` (regression + correctness tests) is the natural next step — we name it at the end.
-
-Each command is a reusable **skill** — installed for you by the devcontainer.
+Each step is a reusable **Agent Skill** from the RSE Agent Plugins,
+discovered by Copilot Chat straight from this repository.
 
 ---
 
