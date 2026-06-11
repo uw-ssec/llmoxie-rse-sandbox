@@ -33,15 +33,15 @@ A **workflow** is a named, reusable prompt that runs one phase and writes a dura
 
 | Phase | Slash command | Writes |
 |---|---|---|
-| 1. Research | `/research` | `docs/rse/specs/research-<slug>.md` |
-| 2. Plan | `/plan` | `docs/rse/specs/plan-<slug>.md` |
-| 3. Implement | `/implement` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
-| 4. Validate | `/validate` | `docs/rse/specs/validation-<slug>.md` |
-| any time | `/handoff` | `docs/rse/specs/handoff-<ts>-<slug>.md` |
+| 1. Research | `/researching` | `docs/rse/specs/research-<slug>.md` |
+| 2. Plan | `/planning-implementations` | `docs/rse/specs/plan-<slug>.md` |
+| 3. Implement | `/implementing-plans` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
+| 4. Validate | `/validating-implementations` | `docs/rse/specs/validation-<slug>.md` |
+| any time | `/creating-handoffs` | `docs/rse/specs/handoff-<ts>-<slug>.md` |
 
-We run **four phases** here. The plugin ships more (`/iterate-plan`, `/experiment`, `/reproduce`, `/harden`).
+We run **four phases** here. The plugin ships more (`/iterating-plans`, `/running-experiments`, `/ensuring-reproducibility`, `/hardening-research-code`).
 
-Each command is a Copilot Chat **prompt file** that hands off to a reusable **skill** — installed for you by the devcontainer.
+Each command is a reusable **Agent Skill** from the RSE Agent Plugins — discovered by Copilot Chat straight from this repository.
 
 ---
 
@@ -80,16 +80,16 @@ Under `samples/` you have loose scripts — no package, no tests:
 
 **Goal:** turn them into an installable Python package, following Scientific Python guidelines.
 
-We'll run `/research → /plan → /implement → /validate` and watch `docs/rse/specs/` fill in.
+We'll run `/researching → /planning-implementations → /implementing-plans → /validating-implementations` and watch `docs/rse/specs/` fill in.
 
 ---
 
-## Phase 1 — `/research`
+## Phase 1 — `/researching`
 
 In Copilot Chat, type:
 
 ```text
-/research how the scripts under samples/ are structured and what's missing for them to be an installable package
+/researching how the scripts under samples/ are structured and what's missing for them to be an installable package
 ```
 
 **You'll see:** a written summary of the current code, entry points, and gaps.
@@ -100,24 +100,24 @@ In Copilot Chat, type:
 
 ---
 
-## Phase 2 — `/plan`
+## Phase 2 — `/planning-implementations`
 
 ```text
-/plan package the samples/ climate scripts as an installable package following Scientific Python guidelines
+/planning-implementations package the samples/ climate scripts as an installable package following Scientific Python guidelines
 ```
 
 **You'll see:** a phased plan with components, dependencies, and **success criteria** (Automated + Manual).
 
-**Then open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validate` checks later.
+**Then open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validating-implementations` checks later.
 
 > Plan too broad? Tighten the scope now — a tight plan means a reviewable diff.
 
 ---
 
-## Phase 3 — `/implement`
+## Phase 3 — `/implementing-plans`
 
 ```text
-/implement docs/rse/specs/plan-<slug>.md
+/implementing-plans docs/rse/specs/plan-<slug>.md
 ```
 
 (Use the real filename from Phase 2.)
@@ -134,14 +134,14 @@ This is the slow one — while it runs, read the next two slides.
 
 ---
 
-## While `/implement` runs: what to watch for
+## While `/implementing-plans` runs: what to watch for
 
 | Failure | Looks like | Mitigation |
 |---|---|---|
-| Context exhaustion | Forgets earlier instructions | `/handoff`, then a fresh chat; smaller scope |
+| Context exhaustion | Forgets earlier instructions | `/creating-handoffs`, then a fresh chat; smaller scope |
 | Looping | Same tool over and over | Interrupt; restate the goal |
-| Confident wrong answer | "Done!" when nothing changed | Always `/validate`; trust nothing without proof |
-| Scope creep | Edits files you didn't mention | Tight `/plan`; narrow per-phase scope |
+| Confident wrong answer | "Done!" when nothing changed | Always `/validating-implementations`; trust nothing without proof |
+| Scope creep | Edits files you didn't mention | Tight `/planning-implementations`; narrow per-phase scope |
 
 > The agent is an eager coworker. Coworkers get pushback.
 
@@ -162,17 +162,17 @@ git restore .       # undo if it went wrong
 
 ---
 
-## Phase 4 — `/validate`
+## Phase 4 — `/validating-implementations`
 
 ```text
-/validate docs/rse/specs/plan-<slug>.md
+/validating-implementations docs/rse/specs/plan-<slug>.md
 ```
 
 **You'll see:** each success criterion checked, with pass/fail and evidence (commands run, files compared).
 
 **Then open:** `docs/rse/specs/validation-*.md`.
 
-> `/validate` is a quality gate, not a vibe check. If it fails, you caught it — not your collaborator.
+> `/validating-implementations` is a quality gate, not a vibe check. If it fails, you caught it — not your collaborator.
 
 ---
 
@@ -196,7 +196,7 @@ Committed alongside the code, this survives the session and transfers to the nex
 ## Now point it at your own code
 
 - Swap the climate scenario for **your** repository — the loop is the same.
-- Use `/handoff` to carry full context into a fresh chat when one gets long.
+- Use `/creating-handoffs` to carry full context into a fresh chat when one gets long.
 - Put your conventions, data shapes, and "don't touch X" in **`AGENTS.md`** (or `.github/copilot-instructions.md`) — that's where your research context lives.
 
 > Same workflow, your science. Pick the loop length to match the half-life of the code.
