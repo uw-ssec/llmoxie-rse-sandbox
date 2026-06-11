@@ -20,7 +20,7 @@ description: "LLMoxie NAIRR Sandbox — ai-research-workflows oceanographic rese
 
 A result without a record of how you got it is a **claim**. Run ad hoc, an AI assistant will happily produce a number — and lose the *why*, the methods it rejected, and whether the result even holds.
 
-A **workflow** is a named, reusable skill that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
+A **workflow** is a named, reusable prompt that runs one phase and writes a durable, cross-linked artifact to `docs/rse/specs/`.
 
 - **Researchers** get a reproducible decision record: hypothesis, methods compared, result, provenance.
 - **Research software engineers** get experiment and validation rigor baked into the loop.
@@ -33,16 +33,16 @@ A **workflow** is a named, reusable skill that runs one phase and writes a durab
 
 | Phase | Slash command | Writes |
 |---|---|---|
-| 1. Research the methods | `/researching` | `docs/rse/specs/research-<slug>.md` |
-| 2. Plan the analysis | `/planning-implementations` | `docs/rse/specs/plan-<slug>.md` |
-| 3. Test the methods | `/running-experiments` | `docs/rse/specs/experiment-<slug>.md` |
-| 4. Implement | `/implementing-plans` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
-| 5. Get results | `/validating-implementations` | `docs/rse/specs/validation-<slug>.md` |
-| 6. Make it reproducible | `/ensuring-reproducibility` | a `## Reproducibility` section in `experiment-`/`implement-<slug>.md` |
+| 1. Research the methods | `/research` | `docs/rse/specs/research-<slug>.md` |
+| 2. Plan the analysis | `/plan` | `docs/rse/specs/plan-<slug>.md` |
+| 3. Test the methods | `/experiment` | `docs/rse/specs/experiment-<slug>.md` |
+| 4. Implement | `/implement` | `docs/rse/specs/implement-<slug>.md` (+ updates the plan) |
+| 5. Get results | `/validate` | `docs/rse/specs/validation-<slug>.md` |
+| 6. Make it reproducible | `/reproduce` | a `## Reproducibility` section in `experiment-`/`implement-<slug>.md` |
 
-`/hardening-research-code` (regression + correctness tests) is the natural next step — we name it at the end.
+`/harden` (regression + correctness tests) is the natural next step — we name it at the end.
 
-Each command is a reusable **Agent Skill** from the RSE Agent Plugins — discovered by Copilot Chat straight from this repository.
+Each command is a Copilot Chat **prompt file** that hands off to a reusable **skill** — installed for you by the devcontainer.
 
 ---
 
@@ -87,12 +87,12 @@ Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
 
 ---
 
-## Phase 1 — `/researching`
+## Phase 1 — `/research`
 
 In Copilot Chat, type:
 
 ```text
-/researching I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
+/research I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
 ```
 
 **You'll see:** a survey of approaches — decomposition methods (harmonic regression, STL, moving-average deseasonalization) plus a robust slope estimator (Theil–Sen) to apply to the deseasonalized residuals — with trade-offs.
@@ -103,24 +103,24 @@ In Copilot Chat, type:
 
 ---
 
-## Phase 2 — `/planning-implementations`
+## Phase 2 — `/plan`
 
 ```text
-/planning-implementations an analysis that estimates the warming trend in samples/ocean/buoy_sst.csv after removing the seasonal cycle, with success criteria
+/plan an analysis that estimates the warming trend in samples/ocean/buoy_sst.csv after removing the seasonal cycle, with success criteria
 ```
 
 **You'll see:** a phased plan with components, dependencies, and **success criteria** (Automated + Manual) — e.g. *recovers the trend within a confidence interval*.
 
-**Then open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validating-implementations` checks later.
+**Then open:** `docs/rse/specs/plan-*.md` — and read the success criteria. That's the contract `/validate` checks later.
 
 > Tighten the scope now — a tight plan means a reviewable result.
 
 ---
 
-## Phase 3 — `/running-experiments` (the centerpiece)
+## Phase 3 — `/experiment` (the centerpiece)
 
 ```text
-/running-experiments compare harmonic regression vs STL decomposition for recovering the warming trend in samples/ocean/buoy_sst.csv
+/experiment compare harmonic regression vs STL decomposition for recovering the warming trend in samples/ocean/buoy_sst.csv
 ```
 
 **You'll see:** the agent **builds and runs each approach for real**, measures how well each recovers the trend, and recommends one with evidence.
@@ -158,10 +158,10 @@ git restore .       # undo if it went wrong
 
 ---
 
-## Phase 4 — `/implementing-plans`
+## Phase 4 — `/implement`
 
 ```text
-/implementing-plans docs/rse/specs/plan-<slug>.md
+/implement docs/rse/specs/plan-<slug>.md
 ```
 
 (Use the real filename from Phase 2.)
@@ -176,24 +176,24 @@ git add -A && git commit -m "implement: phase N"
 
 ---
 
-## Phase 5 — `/validating-implementations`
+## Phase 5 — `/validate`
 
 ```text
-/validating-implementations docs/rse/specs/plan-<slug>.md
+/validate docs/rse/specs/plan-<slug>.md
 ```
 
 **You'll see:** each success criterion checked, with pass/fail and evidence. The recovered warming slope should land near the documented truth.
 
 **Then open:** `docs/rse/specs/validation-*.md`, then check it against `samples/ocean/README.md` (≈ 0.03 °C/yr).
 
-> `/validating-implementations` is a quality gate, not a vibe check. The known answer is what makes it honest.
+> `/validate` is a quality gate, not a vibe check. The known answer is what makes it honest.
 
 ---
 
-## Phase 6 — `/ensuring-reproducibility`
+## Phase 6 — `/reproduce`
 
 ```text
-/ensuring-reproducibility the warming-trend estimate from the samples/ocean experiment
+/reproduce the warming-trend estimate from the samples/ocean experiment
 ```
 
 **You'll see:** a provenance record — interpreter + `pixi.lock`, code commit, the data's seed and content hash, config, exact commands — captured **and then re-run in a clean environment** to confirm the result holds.
@@ -225,8 +225,8 @@ Committed alongside the code, this survives the session and transfers to the nex
 ## Now test your own hypothesis
 
 - Swap the buoy scenario for **your** data and question — the arc is the same.
-- Use **`/creating-handoffs`** to carry full context into a fresh chat when a session gets long.
-- When the result must be trustworthy, run **`/hardening-research-code`**: regression and correctness tests against a known reference. Here, `test_generate_buoy_sst.py` already pins the *data*; `/hardening-research-code` adds the same protection to your *analysis*.
+- Use **`/handoff`** to carry full context into a fresh chat when a session gets long.
+- When the result must be trustworthy, run **`/harden`**: regression and correctness tests against a known reference. Here, `test_generate_buoy_sst.py` already pins the *data*; `/harden` adds the same protection to your *analysis*.
 - Put your conventions, data shapes, and "don't touch X" in **`AGENTS.md`** (or `.github/copilot-instructions.md`) — that's where your research context lives.
 
 > Same loop, your science. From hypothesis to a result you can defend.
