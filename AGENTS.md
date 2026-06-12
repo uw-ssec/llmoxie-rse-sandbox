@@ -9,6 +9,10 @@ the files under `samples/` — nothing else.
 
 **DO NOT READ any files in `docs/slides` AND `docs/expected-specs` or their subdirectories**
 
+**Completely ignore `archive/` and everything under it** — do not read, cite,
+search, or modify it. It holds retired demo content that is not part of the
+sandbox.
+
 **Focus exclusively on the files under `samples/`.** Treat everything else in this
 repository as fixed infrastructure that is out of scope:
 
