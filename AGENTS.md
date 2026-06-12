@@ -7,7 +7,8 @@ the files under `samples/` — nothing else.
 
 **You may write ONLY under `samples/` and `docs/rse/specs/`.**
 
-**DO NOT READ any files in `docs/slides` AND `docs/expected-specs` or their subdirectories**
+**DO NOT READ any files in `docs/slides`**
+**DO NOT READ any files in `docs/expected-specs`**
 
 **Completely ignore `archive/` and everything under it** — do not read, cite,
 search, or modify it. It holds retired demo content that is not part of the
