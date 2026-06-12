@@ -25,8 +25,6 @@ A **workflow** is a named, reusable skill that runs one phase and writes a durab
 - **Researchers** get a reproducible decision record: hypothesis, methods compared, result, provenance.
 - **Research software engineers** get experiment and validation rigor baked into the loop.
 
-> This is the **science** companion to the packaging deck (`research-loop.md`): same loop, told as a research arc.
-
 ---
 
 ## The research arc at a glance

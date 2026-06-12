@@ -3,7 +3,7 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v2";
+const SHOWN_KEY = "llmoxieWalkthroughShown.v3";
 const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
 
 async function maybeShowBrowserTip(context) {
@@ -49,12 +49,8 @@ function openDeckCommand(relativePath) {
 }
 
 async function activate(context) {
-  // Walkthrough step 5 buttons — open each deck straight into slide preview.
+  // Walkthrough step 5 button — open the deck straight into slide preview.
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "llmoxie-sandbox-walkthrough.openPackagingDeck",
-      openDeckCommand("docs/slides/research-loop.md")
-    ),
     vscode.commands.registerCommand(
       "llmoxie-sandbox-walkthrough.openOceanDeck",
       openDeckCommand("docs/slides/research-loop-ocean.md")

@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
@@ -22,10 +22,6 @@
   ],
   "contributes": {
     "commands": [
-      {
-        "command": "llmoxie-sandbox-walkthrough.openPackagingDeck",
-        "title": "LLMoxie Sandbox: Open the packaging research-loop deck"
-      },
       {
         "command": "llmoxie-sandbox-walkthrough.openOceanDeck",
         "title": "LLMoxie Sandbox: Open the ocean research-arc deck"
@@ -86,7 +82,7 @@
           {
             "id": "startResearchLoop",
             "title": "Start the research loop",
-            "description": "Pick a guided deck — each opens directly as slides in the Marp preview.\n[Open packaging deck](command:llmoxie-sandbox-walkthrough.openPackagingDeck)\n[Open ocean deck](command:llmoxie-sandbox-walkthrough.openOceanDeck)",
+            "description": "Open the guided deck — it opens directly as slides in the Marp preview.\n[Open ocean deck](command:llmoxie-sandbox-walkthrough.openOceanDeck)",
             "media": {
               "markdown": "media/step5-research-loop.md"
             }

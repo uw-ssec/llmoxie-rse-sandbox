@@ -28,7 +28,7 @@ This specific sandbox provides a preconfigured GitHub Codespaces workspace for e
 - Native Copilot Agent Skills that expose the RSE workflow slash commands — `/researching`, `/planning-implementations`, `/implementing-plans`, `/validating-implementations`, `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`, `/hardening-research-code`, `/creating-handoffs` — directly in the Chat panel, installed into Copilot during devcontainer setup from the `vendor/rse-plugins` submodule
 - A first-run **Get Started walkthrough** (a first-party VS Code extension built from `.devcontainer/sandbox-walkthrough/`) that opens automatically and covers model selection, gateway verification, a first prompt, and the guided decks
 - A gateway health check — `pixi run verify` — also wired to the walkthrough's "Verify the gateway" button
-- Two guided Marp slide decks (`docs/slides/`) that drive the research loop in Copilot Chat, slide by slide
+- A guided Marp slide deck (`docs/slides/research-loop-ocean.md`) that drives the research loop in Copilot Chat, slide by slide
 
 ## How the pieces fit together
 
@@ -59,7 +59,7 @@ onboarding flow or the repository page. Once setup finishes (watch for the
 green **SANDBOX READY** banner in the terminal), the **LLMoxie RSE Sandbox
 walkthrough** opens automatically and walks you through everything — selecting
 a UW SSEC model, verifying the gateway, sending your first prompt, and opening
-the guided research-loop decks. Reopen it anytime via
+the guided research-loop deck. Reopen it anytime via
 **Help → Welcome → LLMoxie RSE Sandbox**.
 
 The walkthrough's "Verify the gateway" button runs the same check that is
@@ -70,14 +70,11 @@ pixi run verify
 ```
 
 > **Prefer a guided, slide-by-slide demo?** Complete the walkthrough's
-> model-selection step first, then open `docs/slides/research-loop.md` and choose
+> model-selection step first, then open `docs/slides/research-loop-ocean.md` and choose
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
-> research loop in Copilot Chat — packaging the `samples/` climate scripts — with each
-> instruction on screen beside the chat panel.
->
-> **Prefer a research story?** `docs/slides/research-loop-ocean.md` tells the same loop as a
-> hypothesis-driven oceanographic arc — testing a warming trend in synthetic buoy data — and
-> features the `/running-experiments` and `/ensuring-reproducibility` phases the packaging deck skips.
+> research loop in Copilot Chat as a hypothesis-driven oceanographic arc — testing a
+> warming trend in synthetic buoy data, including the `/running-experiments` and
+> `/ensuring-reproducibility` phases — with each instruction on screen beside the chat panel.
 
 ### Working in Copilot Chat
 
@@ -89,7 +86,7 @@ The RSE workflow slash commands work directly in Chat: typing `/researching`,
 `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`,
 `/hardening-research-code`, or `/creating-handoffs` invokes the matching RSE
 Agent Plugin skill, installed during devcontainer setup from the `vendor/rse-plugins` submodule.
-This is the surface the guided decks in `docs/slides/` use.
+This is the surface the guided deck in `docs/slides/` uses.
 
 ### Using the Copilot CLI for RSE plugin workflows
 
