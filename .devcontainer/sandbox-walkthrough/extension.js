@@ -3,7 +3,7 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v5";
+const SHOWN_KEY = "llmoxieWalkthroughShown.v6";
 const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
 
 // Classify the current browser for the "Check your browser" step and the

@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
@@ -13,9 +13,9 @@
   ],
   "main": "./extension.js",
   "browser": "./extension.js",
+  "_extensionKind_note": "ui-only on purpose: in a browser Codespace this forces the extension into the web (browser) extension host, where navigator.userAgent is readable for the browser check. Listing 'workspace' would pin it to the remote Node host (no navigator).",
   "extensionKind": [
-    "ui",
-    "workspace"
+    "ui"
   ],
   "activationEvents": [
     "onStartupFinished"
