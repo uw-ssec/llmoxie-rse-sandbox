@@ -3,23 +3,26 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v4";
+const SHOWN_KEY = "llmoxieWalkthroughShown.v5";
 const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
 
 // Classify the current browser for the "Check your browser" step and the
-// startup tip. Copilot Chat works best in Chromium browsers. The user agent
-// is only visible when this extension runs in the web worker host (VS Code
-// Web); when it runs remotely or in the desktop app, navigator is Node's stub
-// and the browser can't be determined.
+// startup tip. Copilot Chat works best in Chromium browsers. The real browser
+// user agent is only readable when this extension runs in the web extension
+// host — which requires the "Microsoft.VisualStudio.Code.Web" installation
+// target in the .vsixmanifest. When the client is the desktop app there is no
+// browser to check; when the client is web but the user agent isn't reachable
+// from this host, we know they're in a browser but can't identify which.
 //   "ok"          — Chromium-based browser (Chrome, Edge, etc.)
 //   "unsupported" — Firefox or non-Chromium Safari
-//   "unknown"     — can't tell (desktop app or remote host)
+//   "desktop"     — VS Code desktop app; no browser involved
+//   "web-unknown" — browser client, but the user agent isn't readable here
 function detectBrowser() {
   if (vscode.env.uiKind !== vscode.UIKind.Web) {
-    return "unknown";
+    return "desktop";
   }
   if (typeof navigator === "undefined" || !navigator.userAgent) {
-    return "unknown";
+    return "web-unknown";
   }
   const ua = navigator.userAgent;
   const isFirefox = ua.includes("Firefox/");
@@ -59,9 +62,14 @@ async function checkBrowserCommand() {
         "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser. Reopen this Codespace in Chrome for the smoothest experience."
       );
       break;
-    default:
+    case "desktop":
       void vscode.window.showInformationMessage(
-        "Can't detect the browser from here — you're likely in the VS Code desktop app or a remote host. If you're working in a browser, use Google Chrome for the best Copilot Chat experience."
+        "You're in the VS Code desktop app, so there's no browser to check — desktop is fully supported."
+      );
+      break;
+    default: // "web-unknown"
+      void vscode.window.showWarningMessage(
+        "You're working in a browser, but this check couldn't read which one. Make sure you're using Google Chrome for the best Copilot Chat experience."
       );
   }
 }
