@@ -1,8 +1,8 @@
 ## Pick a UW SSEC model
 
-In Copilot Chat, click the model selector next to the input box — it reads
-**Auto** by default. That opens the model list. Expand **Other Models** to see
-the UW SSEC entries.
+In Copilot Chat, click the model selector on the toolbar right underneath the
+input box — it reads **Auto** by default. That opens the model list. Expand
+**Other Models** to see the UW SSEC entries.
 
 Two UW SSEC models are provided: `GPT 5.4 Mini (UW SSEC)` and
 `GPT OSS 120B (UW SSEC)`. **Make sure you select `GPT 5.4 Mini (UW SSEC)`** —
