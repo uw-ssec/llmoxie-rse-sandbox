@@ -74,7 +74,7 @@ Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
 In Copilot Chat, type:
 
 ```text
-/researching methods to separate a long-term trend from a seasonal cycle in samples/ocean/buoy_sst.csv
+/researching I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
 ```
 
 **Collaborative — it scopes before it searches.** Answer: *codebase, prior art, or both?* → **both**; *depth?* → **Moderate**. It then OKs a short plan, investigates, and asks you to review the doc.
