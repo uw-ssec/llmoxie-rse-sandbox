@@ -55,17 +55,14 @@ You'll read a slide, type its prompt in Chat, then open the artifact it writes.
 
 ## The scenario: is the ocean warming here?
 
-Under `samples/ocean/` you have one buoy's daily sea-surface temperature:
+Under `samples/ocean/` — one buoy's ~10 years of daily SST:
 
-- `buoy_sst.csv` — ~10 years of daily `sst_c`
-- `GROUND_TRUTH.md` — the data's **ground truth**, for humans only (the agent is told not to read it), so you can check the loop's answer
-- `generate_buoy_sst.py` — the seeded generator that produced it
-- `test_generate_buoy_sst.py` — a regression test pinning the generator to that truth
+- `buoy_sst.csv` — the data (daily `sst_c`)
+- `GROUND_TRUTH.md` — the **ground truth** (≈ 0.03 °C/yr), humans only; the agent won't read it
 
-**Hypothesis:** this buoy's SST has a warming trend *beyond* its seasonal cycle.
-**Goal:** is the warming real, and how big? We'll run the loop and check the answer against the documented truth (≈ 0.03 °C/yr).
+**Hypothesis:** the SST warms *beyond* its seasonal cycle. **Goal:** is the warming real, and how big? Run the loop, then check the result against the ground truth.
 
-> The data is **synthetic** with a documented structure, so the answer is checkable here. On your own real data the outcome is genuinely uncertain — that's when the experiment earns its keep.
+> Synthetic data with a documented structure, so the answer is checkable. On real data the outcome is genuinely uncertain — that's when the experiment earns its keep.
 
 ---
 
