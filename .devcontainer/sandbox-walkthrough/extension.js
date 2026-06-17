@@ -3,7 +3,7 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v7";
+const SHOWN_KEY = "llmoxieWalkthroughShown.v8";
 
 function openDeckCommand(relativePath) {
   return async () => {
