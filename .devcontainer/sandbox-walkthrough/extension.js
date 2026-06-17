@@ -3,76 +3,7 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v6";
-const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
-
-// Classify the current browser for the "Check your browser" step and the
-// startup tip. Copilot Chat works best in Chromium browsers. The real browser
-// user agent is only readable when this extension runs in the web extension
-// host — which requires the "Microsoft.VisualStudio.Code.Web" installation
-// target in the .vsixmanifest. When the client is the desktop app there is no
-// browser to check; when the client is web but the user agent isn't reachable
-// from this host, we know they're in a browser but can't identify which.
-//   "ok"          — Chromium-based browser (Chrome, Edge, etc.)
-//   "unsupported" — Firefox or non-Chromium Safari
-//   "desktop"     — VS Code desktop app; no browser involved
-//   "web-unknown" — browser client, but the user agent isn't readable here
-function detectBrowser() {
-  if (vscode.env.uiKind !== vscode.UIKind.Web) {
-    return "desktop";
-  }
-  if (typeof navigator === "undefined" || !navigator.userAgent) {
-    return "web-unknown";
-  }
-  const ua = navigator.userAgent;
-  const isFirefox = ua.includes("Firefox/");
-  const isNonChromiumSafari =
-    ua.includes("Safari/") && !ua.includes("Chrome/") && !ua.includes("Chromium/");
-  if (isFirefox || isNonChromiumSafari) {
-    return "unsupported";
-  }
-  return "ok";
-}
-
-async function maybeShowBrowserTip(context) {
-  if (context.globalState.get(BROWSER_TIP_KEY)) {
-    return;
-  }
-  if (detectBrowser() !== "unsupported") {
-    return;
-  }
-  await context.globalState.update(BROWSER_TIP_KEY, true);
-  void vscode.window.showWarningMessage(
-    "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser."
-  );
-}
-
-// Explicit, on-demand browser check wired to the walkthrough step button.
-// Unlike the startup tip, this always reports a result so the step gives
-// clear feedback whether the browser is supported or not.
-async function checkBrowserCommand() {
-  switch (detectBrowser()) {
-    case "ok":
-      void vscode.window.showInformationMessage(
-        "Browser check passed — Copilot Chat is well supported in this Chromium-based browser."
-      );
-      break;
-    case "unsupported":
-      void vscode.window.showWarningMessage(
-        "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser. Reopen this Codespace in Chrome for the smoothest experience."
-      );
-      break;
-    case "desktop":
-      void vscode.window.showInformationMessage(
-        "You're in the VS Code desktop app, so there's no browser to check — desktop is fully supported."
-      );
-      break;
-    default: // "web-unknown"
-      void vscode.window.showWarningMessage(
-        "You're working in a browser, but this check couldn't read which one. Make sure you're using Google Chrome for the best Copilot Chat experience."
-      );
-  }
-}
+const SHOWN_KEY = "llmoxieWalkthroughShown.v7";
 
 function openDeckCommand(relativePath) {
   return async () => {
@@ -98,16 +29,6 @@ async function activate(context) {
       openDeckCommand("docs/slides/research-loop-ocean.md")
     )
   );
-
-  // Walkthrough "Check your browser" button.
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "llmoxie-sandbox-walkthrough.checkBrowser",
-      checkBrowserCommand
-    )
-  );
-
-  await maybeShowBrowserTip(context);
 
   // Open the walkthrough automatically the first time this Codespace loads
   // with the extension active; after that, it stays reachable from the

@@ -2,7 +2,7 @@
   "name": "llmoxie-sandbox-walkthrough",
   "displayName": "LLMoxie RSE Sandbox Walkthrough",
   "description": "Get Started walkthrough for the LLMoxie NAIRR RSE sandbox.",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "publisher": "uw-ssec",
   "license": "BSD-3-Clause",
   "engines": {
@@ -13,9 +13,9 @@
   ],
   "main": "./extension.js",
   "browser": "./extension.js",
-  "_extensionKind_note": "ui-only on purpose: in a browser Codespace this forces the extension into the web (browser) extension host, where navigator.userAgent is readable for the browser check. Listing 'workspace' would pin it to the remote Node host (no navigator).",
   "extensionKind": [
-    "ui"
+    "ui",
+    "workspace"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -25,10 +25,6 @@
       {
         "command": "llmoxie-sandbox-walkthrough.openOceanDeck",
         "title": "LLMoxie Sandbox: Open the ocean research-arc deck"
-      },
-      {
-        "command": "llmoxie-sandbox-walkthrough.checkBrowser",
-        "title": "LLMoxie Sandbox: Check your browser"
       }
     ],
     "walkthroughs": [
@@ -55,17 +51,6 @@
             "media": {
               "markdown": "media/step1-environment.md"
             }
-          },
-          {
-            "id": "checkBrowser",
-            "title": "Check your browser",
-            "description": "Copilot Chat works best in Google Chrome. Run the check to confirm your browser is supported.\n[Check browser](command:llmoxie-sandbox-walkthrough.checkBrowser)",
-            "media": {
-              "markdown": "media/step-browser.md"
-            },
-            "completionEvents": [
-              "onCommand:llmoxie-sandbox-walkthrough.checkBrowser"
-            ]
           },
           {
             "id": "selectModel",
