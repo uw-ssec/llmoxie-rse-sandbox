@@ -52,6 +52,15 @@ The Copilot provider extension and the RSE Agent Plugins are separate. The provi
 
 Although the application layer is built on Claude Code plugins, we have enabled it on this sandbox as the GitHub Copilot CLI. You can therefore use GitHub's Copilot Coding Agent with OpenAI's GPT models, served through Microsoft Foundry and supported by our NAIRR allocation.
 
+## Requirements
+
+Before launching the Codespace, make sure you have the following:
+
+- **A GitHub account.** GitHub Codespaces runs on your GitHub account, and you must be signed in to open the sandbox. If you don't have one, [sign up for free](https://github.com/signup). Codespaces is available on the free plan with [monthly usage limits](https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-codespaces/about-billing-for-github-codespaces).
+- **Google Chrome.** The sandbox runs in the browser, and it has been **fully tested only in [Google Chrome](https://www.google.com/chrome/)**. Other browsers do not appear to work smoothly — this is currently a potential issue with Copilot in GitHub Codespaces, not the sandbox itself. Use Google Chrome for a reliable experience.
+
+That's it — no local installation is required. The devcontainer provisions the pixi Python environment, the LLMoxie Model Provider, and the Copilot CLI with the RSE plugins automatically on first launch.
+
 ## Sandbox walkthrough
 
 Open a GitHub Codespace for this repository, starting from the authorized

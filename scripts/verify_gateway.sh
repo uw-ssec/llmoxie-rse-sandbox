@@ -52,7 +52,7 @@ MODELS_JSON="$(curl -fsSL --max-time 15 \
     "check your network connection and retry with \`pixi run verify\`. If it keeps failing, the gateway may be down — contact the UW SSEC team."
 pass "gateway reachable"
 
-for MODEL in gpt-5.4-mini gpt-oss-120b; do
+for MODEL in gpt-5.5 gpt-5.4-mini; do
   if ! printf '%s' "${MODELS_JSON}" | grep -q "\"${MODEL}\""; then
     fail "model ${MODEL} not listed by the gateway" \
       "the gateway responded but does not expose ${MODEL}. Contact the UW SSEC team — your key may have the wrong model access."

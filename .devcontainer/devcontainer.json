@@ -26,6 +26,13 @@
         "oaicopilot.baseUrl": "${localEnv:LITELLM_BASE_URL}/v1",
         "oaicopilot.models": [
           {
+              "id": "gpt-5.5",
+              "displayName": "GPT 5.5 (UW SSEC)",
+              "owned_by": "uw-ssec",
+              "isUserSelectable": true,
+              "isDefault": true
+          },
+          {
               "id": "gpt-5.4-mini",
               "displayName": "GPT 5.4 Mini (UW SSEC)",
               "owned_by": "uw-ssec",
@@ -35,12 +42,6 @@
               "extra": {
                   "allowed_openai_params": ["top_p"]
               }
-          },
-          {
-              "id": "gpt-oss-120b",
-              "displayName": "GPT OSS 120B (UW SSEC)",
-              "owned_by": "uw-ssec",
-              "isUserSelectable": true
           }
       ],
         // "readme" opens the README as a rendered preview during first-launch
@@ -77,7 +78,7 @@
     // Point the GitHub Copilot CLI (BYOK) at the same LLMaven gateway used by the
     // oaicopilot extension so the CLI exposes the same models. Users can switch
     // among the available models in-session via the /model slash command
-    // (e.g. /model gpt-5.4-mini, /model gpt-5.4-pro, /model gpt-oss-120b).
+    // (e.g. /model gpt-5.5, /model gpt-5.4-mini).
     "COPILOT_PROVIDER_BASE_URL": "${localEnv:LITELLM_BASE_URL}/v1",
     "COPILOT_PROVIDER_API_KEY": "${localEnv:LITELLM_API_KEY}",
     "COPILOT_MODEL": "gpt-5.3-codex",
