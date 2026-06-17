@@ -3,33 +3,67 @@ const vscode = require("vscode");
 const WALKTHROUGH_ID =
   "uw-ssec.llmoxie-sandbox-walkthrough#llmoxieSandboxGetStarted";
 // Rotate the suffix when an update should re-show the walkthrough once.
-const SHOWN_KEY = "llmoxieWalkthroughShown.v3";
+const SHOWN_KEY = "llmoxieWalkthroughShown.v4";
 const BROWSER_TIP_KEY = "llmoxieBrowserTipShown";
 
-async function maybeShowBrowserTip(context) {
-  // Copilot Chat works best in Chromium browsers. The user agent is only
-  // visible when this extension runs in the web worker host (VS Code Web);
-  // when it runs remotely, navigator is Node's stub and matches nothing.
+// Classify the current browser for the "Check your browser" step and the
+// startup tip. Copilot Chat works best in Chromium browsers. The user agent
+// is only visible when this extension runs in the web worker host (VS Code
+// Web); when it runs remotely or in the desktop app, navigator is Node's stub
+// and the browser can't be determined.
+//   "ok"          — Chromium-based browser (Chrome, Edge, etc.)
+//   "unsupported" — Firefox or non-Chromium Safari
+//   "unknown"     — can't tell (desktop app or remote host)
+function detectBrowser() {
   if (vscode.env.uiKind !== vscode.UIKind.Web) {
-    return;
+    return "unknown";
   }
   if (typeof navigator === "undefined" || !navigator.userAgent) {
-    return;
-  }
-  if (context.globalState.get(BROWSER_TIP_KEY)) {
-    return;
+    return "unknown";
   }
   const ua = navigator.userAgent;
   const isFirefox = ua.includes("Firefox/");
   const isNonChromiumSafari =
     ua.includes("Safari/") && !ua.includes("Chrome/") && !ua.includes("Chromium/");
-  if (!isFirefox && !isNonChromiumSafari) {
+  if (isFirefox || isNonChromiumSafari) {
+    return "unsupported";
+  }
+  return "ok";
+}
+
+async function maybeShowBrowserTip(context) {
+  if (context.globalState.get(BROWSER_TIP_KEY)) {
+    return;
+  }
+  if (detectBrowser() !== "unsupported") {
     return;
   }
   await context.globalState.update(BROWSER_TIP_KEY, true);
   void vscode.window.showWarningMessage(
     "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser."
   );
+}
+
+// Explicit, on-demand browser check wired to the walkthrough step button.
+// Unlike the startup tip, this always reports a result so the step gives
+// clear feedback whether the browser is supported or not.
+async function checkBrowserCommand() {
+  switch (detectBrowser()) {
+    case "ok":
+      void vscode.window.showInformationMessage(
+        "Browser check passed — Copilot Chat is well supported in this Chromium-based browser."
+      );
+      break;
+    case "unsupported":
+      void vscode.window.showWarningMessage(
+        "This sandbox's Copilot Chat works best in Google Chrome — you may hit hiccups in this browser. Reopen this Codespace in Chrome for the smoothest experience."
+      );
+      break;
+    default:
+      void vscode.window.showInformationMessage(
+        "Can't detect the browser from here — you're likely in the VS Code desktop app or a remote host. If you're working in a browser, use Google Chrome for the best Copilot Chat experience."
+      );
+  }
 }
 
 function openDeckCommand(relativePath) {
@@ -49,11 +83,19 @@ function openDeckCommand(relativePath) {
 }
 
 async function activate(context) {
-  // Walkthrough step 5 button — open the deck straight into slide preview.
+  // Walkthrough "Open the deck" button — open the deck straight into slide preview.
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "llmoxie-sandbox-walkthrough.openOceanDeck",
       openDeckCommand("docs/slides/research-loop-ocean.md")
+    )
+  );
+
+  // Walkthrough "Check your browser" button.
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "llmoxie-sandbox-walkthrough.checkBrowser",
+      checkBrowserCommand
     )
   );
 

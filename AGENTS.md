@@ -32,8 +32,12 @@ artifacts to `docs/rse/specs/`), stop and ask before proceeding.
 `samples/ocean/GROUND_TRUTH.md` documents the known answer baked into the
 synthetic buoy data so a **human** can check the demo's result. When researching,
 analyzing, experimenting on, or validating that data, **never read, cite, or use
-`GROUND_TRUTH.md`** — and do not lift the trend value from the constants in
-`generate_buoy_sst.py` or its test. Recover results from `buoy_sst.csv` alone;
+`GROUND_TRUTH.md`**.
+
+**DO NOT READ the data-generation scripts** — `samples/ocean/generate_buoy_sst.py`
+and its test `samples/ocean/test_generate_buoy_sst.py`. They hard-code the trend
+value baked into the data, so reading them leaks the answer. Do not read, cite,
+search, or lift constants from them. Recover results from `buoy_sst.csv` alone;
 an analysis that peeks at the answer defeats the demo.
 
 ## Conventions
