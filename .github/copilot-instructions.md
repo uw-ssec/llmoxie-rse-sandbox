@@ -10,7 +10,6 @@ the files under `samples/` — nothing else.
 - **You may read `vendor/`** (the `rse-plugins` submodule) — it is read-only reference.
 
 - **Don't read any files in `docs/slides`.**
-- **Don't read any files in `docs/expected-specs`.**
 - **Don't read, cite, search, or modify `archive/`** or anything under it — ignore it completely.
 - **Don't read `samples/ocean/generate_buoy_sst.py`.**
 - **Don't read `samples/ocean/GROUND_TRUTH.md`.**
