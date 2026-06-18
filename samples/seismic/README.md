@@ -5,6 +5,8 @@ single seismically active region, produced by `generate_catalog.py`. It exists s
 the research-loop demo (`docs/slides/research-loop-seismic.md`) can test a
 Gutenberg–Richter **b-value** hypothesis against a **known answer**.
 
+The b-value characterizes the region's hazard — how often large quakes occur relative to small ones — not the timing of any single earthquake.
+
 ## Columns
 
 | Column | Meaning |

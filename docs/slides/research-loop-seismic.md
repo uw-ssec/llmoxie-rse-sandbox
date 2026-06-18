@@ -62,6 +62,8 @@ Under `samples/seismic/` — one region's ~10 years of recorded earthquakes:
 
 **Hypothesis:** the region's Gutenberg–Richter b-value sits *below* the global ~1.0 baseline — relatively more large quakes per small one. **Goal:** recover the b-value and check it against that baseline. Run the loop, then check the result against the ground truth.
 
+*A b-value characterizes hazard — how often large quakes occur relative to small ones — not a prediction of when the next earthquake strikes.*
+
 > Synthetic data with a documented structure, so the answer is checkable. On real data the outcome is genuinely uncertain — that's when the experiment earns its keep.
 
 ---
@@ -106,7 +108,7 @@ Start a fresh session, then:
 
 **Collaborative.** It picks 2–3 *distinct* approaches and **builds and runs each for real**, then recommends one with evidence.
 
-Here a bootstrap confidence interval would need `obspy` (not installed) — so it labels that an **unverified assumption** rather than guess, and recommends the Aki–Utsu estimator it ran; the least-squares fit it also ran comes out sensitive to the magnitude range and off from the stable MLE.
+Here a third approach — `obspy`'s b-value / completeness-magnitude utilities — would need `obspy` (not installed), so it labels that an **unverified assumption** rather than guess, and recommends the Aki–Utsu estimator it ran; the least-squares fit it also ran comes out sensitive to the magnitude range and off from the stable MLE.
 
 **Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison.
 
