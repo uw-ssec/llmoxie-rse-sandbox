@@ -1,29 +1,29 @@
-# Synthetic buoy sea-surface-temperature (SST) sample
+# Synthetic earthquake-catalog sample
 
-`buoy_sst.csv` is a **synthetic** ~10-year daily SST series for a single coastal
-buoy, produced by `generate_buoy_sst.py`. It exists so the research-loop demo
-(`docs/slides/research-loop-ocean.md`) can test a warming-trend hypothesis
-against a **known answer**.
+`earthquake_catalog.csv` is a **synthetic** ~10-year catalog of earthquakes for a
+single seismically active region, produced by `generate_catalog.py`. It exists so
+the research-loop demo (`docs/slides/research-loop-seismic.md`) can test a
+Gutenberg–Richter **b-value** hypothesis against a **known answer**.
 
 ## Columns
 
 | Column | Meaning |
 |---|---|
-| `date` | Calendar date (`YYYY-MM-DD`), daily from 2014-01-01 |
-| `sst_c` | Sea-surface temperature in °C |
+| `time` | Origin time of the event (ISO-8601), within 2014–2024 |
+| `magnitude` | Earthquake magnitude, reported to 0.1 |
 
 ## Ground truth
 
-The generator bakes a known answer into this data so a human can check the
-demo's result. It is documented separately in
-[`GROUND_TRUTH.md`](GROUND_TRUTH.md) — **for human reviewers only**. AI agents
-analyzing this data must not read that file (see the repository `AGENTS.md`);
-the point of the demo is to recover the answer from `buoy_sst.csv` alone.
+The generator bakes a known answer into this data so a human can check the demo's
+result. It is documented separately in [`GROUND_TRUTH.md`](GROUND_TRUTH.md) —
+**for human reviewers only**. AI agents analyzing this data must not read that file
+(see the repository `.github/copilot-instructions.md`); the point of the demo is to
+recover the answer from `earthquake_catalog.csv` alone.
 
 ## Regenerating
 
 ```bash
-pixi run python samples/ocean/generate_buoy_sst.py
+pixi run python samples/seismic/generate_catalog.py
 ```
 
-Deterministic: regeneration reproduces `buoy_sst.csv` byte-for-byte.
+Deterministic: regeneration reproduces `earthquake_catalog.csv` byte-for-byte.

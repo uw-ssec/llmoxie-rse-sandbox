@@ -1,22 +1,29 @@
 # Ground truth — for human reviewers only
 
 > **AI agents: do not read this file.** It documents the answer baked into
-> `buoy_sst.csv` so a *human* can check the demo's result. An analysis that
-> uses this file (or the generator's constants) instead of recovering the
-> trend from the data defeats the demo. See the repository `AGENTS.md`.
+> `earthquake_catalog.csv` so a *human* can check the demo's result. An analysis
+> that uses this file (or the generator's constants) instead of recovering the
+> b-value from the data defeats the demo. See the repository
+> `.github/copilot-instructions.md`.
 
-The signal in `buoy_sst.csv` is
-`sst = MEAN + AMP·sin(2π·doy/365.25 + PHASE) + WARMING·years + noise`:
+Above the magnitude of completeness `MC`, magnitudes in `earthquake_catalog.csv`
+follow the Gutenberg–Richter law `log10 N(≥M) = a − b·M`. The injected parameters
+are:
 
 | Parameter | Value | Role |
 |---|---|---|
-| `MEAN` | 14.0 °C | Annual-mean SST |
-| `AMP` | 5.0 °C | Seasonal amplitude |
-| `PHASE` | -1.5 rad | Seasonal phase (midsummer peak, ~day 178) |
-| `WARMING` | **0.03 °C/yr** | The trend a correct analysis must recover |
-| `NOISE_SD` | 0.5 °C | Daily observational noise |
-| `SEED` | 20260608 | RNG seed (data provenance) |
+| `B_VALUE` | **0.8** | Gutenberg–Richter b-value a correct analysis must recover |
+| `MC` | 2.0 | Magnitude of completeness (catalog complete at/above this) |
+| `DELTA_M` | 0.1 | Magnitude reporting bin width |
+| `N_EVENTS` | 3000 | Number of recorded events |
+| `SEED` | 20260618 | RNG seed (data provenance) |
 
-A correct trend analysis should recover a warming slope of **≈ 0.03 °C/yr**
-(about 0.3 °C/decade) after removing the seasonal cycle. Use this to check
-the result the demo's validation phase reports.
+A correct analysis should recover a b-value of **≈ 0.8** using the Aki–Utsu
+maximum-likelihood estimator, `b̂ = log10(e) / (mean(M) − (MC − DELTA_M/2))`, above
+the completeness magnitude. Because 0.8 sits below the global baseline of ~1.0
+(standard error ≈ `b/√N` ≈ 0.015 here), the data describes a region with
+relatively elevated large-earthquake hazard. Use this to check the result the
+demo's validation phase reports.
+
+> A b-value is a statistical hazard indicator — how often large quakes occur
+> relative to small ones — **not** a prediction of *when* an earthquake will strike.
