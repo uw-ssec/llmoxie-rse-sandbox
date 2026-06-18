@@ -23,8 +23,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "llmoxie-sandbox-walkthrough.openOceanDeck",
-        "title": "LLMoxie Sandbox: Open the ocean research-arc deck"
+        "command": "llmoxie-sandbox-walkthrough.openSeismicDeck",
+        "title": "LLMoxie Sandbox: Open the seismology research-arc deck"
       }
     ],
     "walkthroughs": [
@@ -82,7 +82,7 @@
           {
             "id": "startResearchLoop",
             "title": "Start the research loop",
-            "description": "Open the guided deck — it opens directly as slides in the Marp preview.\n[Open ocean deck](command:llmoxie-sandbox-walkthrough.openOceanDeck)",
+            "description": "Open the guided deck — it opens directly as slides in the Marp preview.\n[Open seismic deck](command:llmoxie-sandbox-walkthrough.openSeismicDeck)",
             "media": {
               "markdown": "media/step5-research-loop.md"
             }

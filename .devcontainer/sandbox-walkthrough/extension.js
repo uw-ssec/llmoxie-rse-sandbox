@@ -25,8 +25,8 @@ async function activate(context) {
   // Walkthrough "Open the deck" button — open the deck straight into slide preview.
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "llmoxie-sandbox-walkthrough.openOceanDeck",
-      openDeckCommand("docs/slides/research-loop-ocean.md")
+      "llmoxie-sandbox-walkthrough.openSeismicDeck",
+      openDeckCommand("docs/slides/research-loop-seismic.md")
     )
   );
 
