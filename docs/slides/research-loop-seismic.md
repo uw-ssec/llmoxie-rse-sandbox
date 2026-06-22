@@ -76,9 +76,9 @@ In Copilot Chat, type:
 /researching I'd like to figure out methods to estimate the Gutenberg–Richter b-value (the magnitude–frequency slope) of an earthquake catalog, for samples/seismic/earthquake_catalog.csv
 ```
 
-**Collaborative — it scopes before it searches.** Answer: *codebase, prior art, or both?* → **both**; *depth?* → **Moderate**. It then OKs a short plan, investigates, and asks you to review the doc.
+**Collaborative — it scopes before it searches.** It proposes covering *both* the catalog and the external literature, then asks one scoping question — a practical demo write-up vs. a broader seismology-methods survey. It OKs a short research plan with you, investigates, shows its findings, then writes and self-reviews the doc for you to review.
 
-**Writes:** `docs/rse/specs/research-<slug>.md` — prior-art approaches (maximum likelihood / Aki–Utsu, least-squares on the frequency–magnitude distribution, the b-positive method) with trade-offs and citations.
+**Writes:** `docs/rse/specs/research-<slug>.md` — prior-art approaches (maximum likelihood / Aki–Utsu, least-squares on the frequency–magnitude distribution, the b-positive method) with trade-offs and DOI citations.
 
 > Prior art before code.
 
@@ -90,7 +90,7 @@ In Copilot Chat, type:
 /planning-implementations estimate the Gutenberg–Richter b-value in samples/seismic/earthquake_catalog.csv above its completeness magnitude, with success criteria
 ```
 
-**Collaborative.** It reads the research doc, then offers design options + a recommendation and a phase breakdown to approve. Pick **Aki–Utsu maximum likelihood**; reuse the existing `test_generate_catalog.py`. It leaves **no TBDs or open questions**.
+**Collaborative.** It reads the research doc, computes catalog diagnostics from the CSV, then offers design options + a recommendation and a phase breakdown to approve. Pick the option it recommends: a new **standard-library-only** `b_value_analysis.py` built **test-first** with its own `test_b_value_analysis.py`, using **Aki–Utsu maximum likelihood**. It leaves **no TBDs or open questions**.
 
 **Writes:** `docs/rse/specs/plan-<slug>.md` — success criteria **split into Automated and Manual**, the contract `/validate` checks later.
 
@@ -106,11 +106,11 @@ Start a fresh session, then:
 /running-experiments compare maximum-likelihood (Aki–Utsu) vs least-squares estimation of the b-value in samples/seismic/earthquake_catalog.csv
 ```
 
-**Collaborative.** It picks 2–3 *distinct* approaches and **builds and runs each for real**, then recommends one with evidence.
+It picks *distinct* approaches and **builds and runs each for real** on the catalog, then recommends one with evidence.
 
-Here a third approach — `obspy`'s b-value / completeness-magnitude utilities — would need `obspy` (not installed), so it labels that an **unverified assumption** rather than guess, and recommends the Aki–Utsu estimator it ran; the least-squares fit it also ran comes out sensitive to the magnitude range and off from the stable MLE.
+Here it pits binned **Aki–Utsu maximum likelihood** against **ordinary least-squares** on cumulative magnitude–frequency counts. Both run — and they *disagree*: least-squares lands at **b ≈ 0.69** and drifts as the completeness magnitude moves (its cumulative counts violate the independence OLS assumes), while Aki–Utsu holds **stable at b ≈ 0.78**. A strong least-squares fit (R² ≈ 0.985) sits right next to the wrong b-value — a good-looking line isn't a right answer. It recommends Aki–Utsu.
 
-**Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison.
+**Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison, with timings, an `Mc` sensitivity table, and bootstrap intervals.
 
 > The slow phase — while it runs, read the next two slides.
 
@@ -136,7 +136,9 @@ Start a fresh session (use the real filename from Phase 2):
 /implementing-plans go ahead with docs/rse/specs/plan-<slug>.md
 ```
 
-**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, ticking `- [ ]` → `- [x]` live, running checks, and **pausing after each phase for your manual verification**.
+**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, **test-first** (failing test → implement → green), ticking `- [ ]` → `- [x]` live, **committing each completed phase**, and **pausing for your manual verification** before the next.
+
+It follows the plan but doesn't obey it blindly: in this run it caught a bug in the plan's own Phase 1 test and **paused to confirm the fix** before continuing.
 
 **Writes (at the end):** `docs/rse/specs/implement-<slug>.md` — changes, deviations, results.
 
