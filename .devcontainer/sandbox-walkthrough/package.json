@@ -23,8 +23,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "llmoxie-sandbox-walkthrough.openOceanDeck",
-        "title": "LLMoxie Sandbox: Open the ocean research-arc deck"
+        "command": "llmoxie-sandbox-walkthrough.openSeismicDeck",
+        "title": "LLMoxie Sandbox: Open the seismology research-arc deck"
       }
     ],
     "walkthroughs": [
@@ -55,7 +55,7 @@
           {
             "id": "selectModel",
             "title": "Select a UW SSEC model",
-            "description": "Open Copilot Chat, click the model selector (it reads \"Auto\") on the toolbar right underneath the input box, expand \"Other Models\", and select \"GPT 5.5 (UW SSEC)\". Two UW SSEC models appear — make sure GPT 5.5 is the one selected.\n[Open Copilot Chat](command:workbench.action.chat.open)",
+            "description": "Open Copilot Chat and click the model selector (it reads \"Auto\") on the toolbar right underneath the input box. The UW SSEC models don't appear on their own — click the gear icon to open the Language Models manager (they're hidden at the bottom, under \"LLMoxie Gateway\"), then close it, reopen the selector, expand \"Other Models\", and select \"GPT 5.5 (UW SSEC)\".\n[Open Copilot Chat](command:workbench.action.chat.open)",
             "media": {
               "markdown": "media/step2-select-model.md"
             }
@@ -82,7 +82,7 @@
           {
             "id": "startResearchLoop",
             "title": "Start the research loop",
-            "description": "Open the guided deck — it opens directly as slides in the Marp preview.\n[Open ocean deck](command:llmoxie-sandbox-walkthrough.openOceanDeck)",
+            "description": "Open the guided deck — it opens directly as slides in the Marp preview.\n[Open seismic deck](command:llmoxie-sandbox-walkthrough.openSeismicDeck)",
             "media": {
               "markdown": "media/step5-research-loop.md"
             }

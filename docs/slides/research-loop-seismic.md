@@ -2,13 +2,13 @@
 marp: true
 theme: sandbox
 paginate: true
-title: "Test a Warming Hypothesis with the Research Loop"
-description: "LLMoxie NAIRR Sandbox — ai-research-workflows oceanographic research arc"
+title: "Test a Seismic-Hazard Hypothesis with the Research Loop"
+description: "LLMoxie NAIRR Sandbox — ai-research-workflows seismology research arc"
 ---
 
 <!-- _class: lead -->
 
-# Test a Warming Hypothesis with the Research Loop
+# Test a Seismic-Hazard Hypothesis with the Research Loop
 
 ## A hypothesis-driven research arc with the RSE Agent workflows
 
@@ -44,7 +44,7 @@ discovered by Copilot Chat straight from this repository.
 ## Before you start
 
 - A **UW SSEC model** is selected in Copilot Chat (see the sandbox walkthrough — Help → Welcome).
-- This deck is open in **Marp preview** — `research-loop-ocean.md` → "Open Preview to the Side".
+- This deck is open in **Marp preview** — `research-loop-seismic.md` → "Open Preview to the Side".
 - The **Copilot Chat** panel is open beside the preview (`Ctrl+Shift+I`).
 
 You'll read a slide, type its prompt in Chat, then open the artifact it writes.
@@ -53,14 +53,16 @@ You'll read a slide, type its prompt in Chat, then open the artifact it writes.
 
 ---
 
-## The scenario: is the ocean warming here?
+## The scenario: is this region prone to large quakes?
 
-Under `samples/ocean/` — one buoy's ~10 years of daily SST:
+Under `samples/seismic/` — one region's ~10 years of recorded earthquakes:
 
-- `buoy_sst.csv` — the data (daily `sst_c`)
-- `GROUND_TRUTH.md` — the **ground truth** (≈ 0.03 °C/yr), humans only; the agent won't read it
+- `earthquake_catalog.csv` — the data (`time`, `magnitude`)
+- `GROUND_TRUTH.md` — the **ground truth** (b ≈ 0.8), humans only; the agent won't read it
 
-**Hypothesis:** the SST warms *beyond* its seasonal cycle. **Goal:** is the warming real, and how big? Run the loop, then check the result against the ground truth.
+**Hypothesis:** the region's Gutenberg–Richter b-value sits *below* the global ~1.0 baseline — relatively more large quakes per small one. **Goal:** recover the b-value and check it against that baseline. Run the loop, then check the result against the ground truth.
+
+*A b-value characterizes hazard — how often large quakes occur relative to small ones — not a prediction of when the next earthquake strikes.*
 
 > Synthetic data with a documented structure, so the answer is checkable. On real data the outcome is genuinely uncertain — that's when the experiment earns its keep.
 
@@ -71,12 +73,12 @@ Under `samples/ocean/` — one buoy's ~10 years of daily SST:
 In Copilot Chat, type:
 
 ```text
-/researching I'd like to figure out methods to separate a long-term trend from a seasonal cycle in a daily temperature time series, for samples/ocean/buoy_sst.csv
+/researching I'd like to figure out methods to estimate the Gutenberg–Richter b-value (the magnitude–frequency slope) of an earthquake catalog, for samples/seismic/earthquake_catalog.csv
 ```
 
-**Collaborative — it scopes before it searches.** Answer: *codebase, prior art, or both?* → **both**; *depth?* → **Moderate**. It then OKs a short plan, investigates, and asks you to review the doc.
+**Collaborative — it scopes before it searches.** It proposes covering *both* the catalog and the external literature, then asks one scoping question — a practical demo write-up vs. a broader seismology-methods survey. It OKs a short research plan with you, investigates, shows its findings, then writes and self-reviews the doc for you to review.
 
-**Writes:** `docs/rse/specs/research-<slug>.md` — prior-art approaches (classical decomposition, STL, GAM / spline) with trade-offs and citations.
+**Writes:** `docs/rse/specs/research-<slug>.md` — prior-art approaches (maximum likelihood / Aki–Utsu, least-squares on the frequency–magnitude distribution, the b-positive method) with trade-offs and DOI citations.
 
 > Prior art before code.
 
@@ -85,10 +87,10 @@ In Copilot Chat, type:
 ## Phase 2 — Plan
 
 ```text
-/planning-implementations estimate the warming trend in samples/ocean/buoy_sst.csv after removing the seasonal cycle, with success criteria
+/planning-implementations estimate the Gutenberg–Richter b-value in samples/seismic/earthquake_catalog.csv above its completeness magnitude, with success criteria
 ```
 
-**Collaborative.** It reads the research doc, then offers design options + a recommendation and a phase breakdown to approve. Pick **harmonic regression**; reuse the existing `test_generate_buoy_sst.py`. It leaves **no TBDs or open questions**.
+**Collaborative.** It reads the research doc, computes catalog diagnostics from the CSV, then offers design options + a recommendation and a phase breakdown to approve. Pick the option it recommends: a new **standard-library-only** `b_value_analysis.py` built **test-first** with its own `test_b_value_analysis.py`, using **Aki–Utsu maximum likelihood**. It leaves **no TBDs or open questions**.
 
 **Writes:** `docs/rse/specs/plan-<slug>.md` — success criteria **split into Automated and Manual**, the contract `/validate` checks later.
 
@@ -101,14 +103,14 @@ In Copilot Chat, type:
 Start a fresh session, then:
 
 ```text
-/running-experiments compare harmonic regression vs STL for the warming trend in samples/ocean/buoy_sst.csv
+/running-experiments compare maximum-likelihood (Aki–Utsu) vs least-squares estimation of the b-value in samples/seismic/earthquake_catalog.csv
 ```
 
-**Collaborative.** It picks 2–3 *distinct* approaches and **builds and runs each for real**, then recommends one with evidence.
+It picks *distinct* approaches and **builds and runs each for real** on the catalog, then recommends one with evidence.
 
-Here STL needs `statsmodels` (not installed) — so it labels STL an **unverified assumption** rather than guess, and recommends the harmonic regression it ran.
+Here it pits binned **Aki–Utsu maximum likelihood** against **ordinary least-squares** on cumulative magnitude–frequency counts. Both run — and they *disagree*: least-squares lands at **b ≈ 0.69** and drifts as the completeness magnitude moves (its cumulative counts violate the independence OLS assumes), while Aki–Utsu holds **stable at b ≈ 0.78**. A strong least-squares fit (R² ≈ 0.985) sits right next to the wrong b-value — a good-looking line isn't a right answer. It recommends Aki–Utsu.
 
-**Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison.
+**Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison, with timings, an `Mc` sensitivity table, and bootstrap intervals.
 
 > The slow phase — while it runs, read the next two slides.
 
@@ -120,7 +122,7 @@ Here STL needs `statsmodels` (not installed) — so it labels STL an **unverifie
 
 Every approach in the comparison must be actually built and run. A comparison with one side *assumed* —
 
-> "harmonic regression is obviously better, so I didn't run STL"
+> "Aki–Utsu is obviously better, so I didn't run the least-squares fit"
 
 — is an opinion with a number stapled to one half. For a research result, that is the difference between a finding and a guess. If an approach genuinely can't be built, the skill labels it an *unverified assumption* — never a benchmark.
 
@@ -134,7 +136,9 @@ Start a fresh session (use the real filename from Phase 2):
 /implementing-plans go ahead with docs/rse/specs/plan-<slug>.md
 ```
 
-**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, ticking `- [ ]` → `- [x]` live, running checks, and **pausing after each phase for your manual verification**.
+**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, **test-first** (failing test → implement → green), ticking `- [ ]` → `- [x]` live, **committing each completed phase**, and **pausing for your manual verification** before the next.
+
+It follows the plan but doesn't obey it blindly: in this run it caught a bug in the plan's own Phase 1 test and **paused to confirm the fix** before continuing.
 
 **Writes (at the end):** `docs/rse/specs/implement-<slug>.md` — changes, deviations, results.
 
@@ -154,7 +158,7 @@ Start a fresh session, then:
 
 **Writes:** `docs/rse/specs/validation-<slug>.md`.
 
-**You check (human):** the result vs `samples/ocean/GROUND_TRUTH.md` — **≈ 0.03 °C/yr**. The agent won't read that file.
+**You check (human):** the result vs `samples/seismic/GROUND_TRUTH.md` — **b ≈ 0.8**, below the 1.0 baseline. The agent won't read that file.
 
 > A quality gate, not a vibe check.
 
@@ -165,7 +169,7 @@ Start a fresh session, then:
 Start a fresh session for reproducibility:
 
 ```text
-/ensuring-reproducibility of the warming-trend estimate from the samples/ocean experiment
+/ensuring-reproducibility of the b-value estimate from the samples/seismic experiment
 ```
 
 **You'll see:** a provenance record — interpreter + `pixi.lock`, commit, data seed + hash, config, exact commands — **then re-run in a clean environment** to confirm it holds.
@@ -196,9 +200,9 @@ Committed alongside the code, this survives the session and transfers to the nex
 
 ## Now test your own hypothesis
 
-- Swap the buoy scenario for **your** data and question — the arc is the same.
+- Swap the earthquake-catalog scenario for **your** data and question — the arc is the same.
 - Use **`/creating-handoffs`** to carry full context — git state, artifacts, open issues — into a fresh chat when a session gets long.
-- For a result that must hold up, run **`/hardening-research-code`**: it nails down what *correct* means against an independent reference, then backs it with correctness, stability, and regression tests — pinning your *analysis* the way `test_generate_buoy_sst.py` pins the *data*.
+- For a result that must hold up, run **`/hardening-research-code`**: it nails down what *correct* means against an independent reference, then backs it with correctness, stability, and regression tests — pinning your *analysis* the way `test_generate_catalog.py` pins the *data*.
 - Put your conventions and "don't read/touch X" rules in **`.github/copilot-instructions.md`**.
 
 > Same loop, your science. From hypothesis to a result you can defend.

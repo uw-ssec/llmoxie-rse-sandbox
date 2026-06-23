@@ -28,7 +28,7 @@ This specific sandbox provides a preconfigured GitHub Codespaces workspace for e
 - Native Copilot Agent Skills that expose the RSE workflow slash commands — `/researching`, `/planning-implementations`, `/implementing-plans`, `/validating-implementations`, `/running-experiments`, `/ensuring-reproducibility`, `/iterating-plans`, `/hardening-research-code`, `/creating-handoffs` — directly in the Chat panel, installed into Copilot during devcontainer setup from the `vendor/rse-plugins` submodule
 - A first-run **Get Started walkthrough** (a first-party VS Code extension built from `.devcontainer/sandbox-walkthrough/`) that opens automatically and covers model selection, gateway verification, a first prompt, and the guided decks
 - A gateway health check — `pixi run verify` — also wired to the walkthrough's "Verify the gateway" button
-- A guided Marp slide deck (`docs/slides/research-loop-ocean.md`) that drives the research loop in Copilot Chat, slide by slide
+- A guided Marp slide deck (`docs/slides/research-loop-seismic.md`) that drives the research loop in Copilot Chat, slide by slide
 
 ## How the pieces fit together
 
@@ -79,11 +79,9 @@ pixi run verify
 ```
 
 > **Prefer a guided, slide-by-slide demo?** Complete the walkthrough's
-> model-selection step first, then open `docs/slides/research-loop-ocean.md` and choose
+> model-selection step first, then open `docs/slides/research-loop-seismic.md` and choose
 > "Open Preview to the Side" (Marp). It walks you through the full `ai-research-workflows`
-> research loop in Copilot Chat as a hypothesis-driven oceanographic arc — testing a
-> warming trend in synthetic buoy data, including the `/running-experiments` and
-> `/ensuring-reproducibility` phases — with each instruction on screen beside the chat panel.
+> research loop in Copilot Chat as a hypothesis-driven seismology arc — recovering a region's Gutenberg–Richter b-value from a synthetic earthquake catalog and testing it against the global baseline, including the `/running-experiments` and `/ensuring-reproducibility` phases — with each instruction on screen beside the chat panel.
 
 ### Working in Copilot Chat
 
