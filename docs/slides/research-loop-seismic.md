@@ -106,11 +106,9 @@ Start a fresh session, then:
 /running-experiments compare maximum-likelihood (Aki–Utsu) vs least-squares estimation of the b-value in samples/seismic/earthquake_catalog.csv
 ```
 
-It picks *distinct* approaches and **builds and runs each for real** on the catalog, then recommends one with evidence.
+It builds **distinct approaches** and **runs each for real**, then recommends one with evidence. Here: binned **Aki–Utsu maximum likelihood** vs **ordinary least-squares** on cumulative magnitude–frequency counts. Both run, but *disagree* — least-squares lands at **b ≈ 0.69** and drifts with the completeness magnitude (its cumulative counts violate the independence OLS assumes), while Aki–Utsu stays **stable at b ≈ 0.78**. A strong fit (R² ≈ 0.985) next to the wrong b-value: a good-looking line isn't a right one. It recommends Aki–Utsu.
 
-Here it pits binned **Aki–Utsu maximum likelihood** against **ordinary least-squares** on cumulative magnitude–frequency counts. Both run — and they *disagree*: least-squares lands at **b ≈ 0.69** and drifts as the completeness magnitude moves (its cumulative counts violate the independence OLS assumes), while Aki–Utsu holds **stable at b ≈ 0.78**. A strong least-squares fit (R² ≈ 0.985) sits right next to the wrong b-value — a good-looking line isn't a right answer. It recommends Aki–Utsu.
-
-**Writes:** `docs/rse/specs/experiment-<slug>.md` — the head-to-head comparison, with timings, an `Mc` sensitivity table, and bootstrap intervals.
+**Writes:** `docs/rse/specs/experiment-<slug>.md` — the comparison: timings, an `Mc` sensitivity table, bootstrap intervals.
 
 > The slow phase — while it runs, read the next two slides.
 
@@ -136,11 +134,11 @@ Start a fresh session (use the real filename from Phase 2):
 /implementing-plans go ahead with docs/rse/specs/plan-<slug>.md
 ```
 
-**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, **test-first** (failing test → implement → green), ticking `- [ ]` → `- [x]` live, **committing each completed phase**, and **pausing for your manual verification** before the next.
+**It hard-stops to confirm the branch** — never builds on `main`. Then it works **phase by phase**, **test-first** (red → green), ticking `- [ ]` → `- [x]` live, committing each phase, and **pausing for your verification** before the next.
 
-It follows the plan but doesn't obey it blindly: in this run it caught a bug in the plan's own Phase 1 test and **paused to confirm the fix** before continuing.
+It follows the plan without obeying it blindly — in this run it caught a bug in the plan's own Phase 1 test and paused to confirm the fix.
 
-**Writes (at the end):** `docs/rse/specs/implement-<slug>.md` — changes, deviations, results.
+**Writes (at the end):** `docs/rse/specs/implement-<slug>.md`.
 
 > Nothing advances past a phase without you.
 
